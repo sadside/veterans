@@ -1,49 +1,47 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import {Introduction} from "../widgets/introduction"
+import Layout from '../layouts/Layout.astro'
+import { Introduction } from '../widgets/introduction'
 import '../styles/global.css'
 import '../styles/marquee.css'
-import {News} from "../widgets/news";
-import Marquee from "../shared/ui/marquee/ui/ui";
-import {Memory} from "../widgets/memory";
-import {Leisure} from "../widgets/our-leisure";
-import {Map} from "../widgets/Map/ui/ui";
-import {Managment} from "../widgets/managment";
+import { News } from '../widgets/news'
+import Marquee from '../shared/ui/marquee/ui/ui'
+import { Memory } from '../widgets/memory'
+import { Leisure } from '../widgets/our-leisure'
+import { Map } from '../widgets/Map/ui/ui'
+import { Managment } from '../widgets/managment'
 ---
 
 <Layout>
-	<div class="container pt-[80px]">
-		<Introduction client:load />
-	</div>
+    <div class="container pt-[80px]">
+        <Introduction client:load />
+    </div>
 
-	<div class="bg-[#F0F2F9]">
-		<div class="container py-[100px]">
-			<News client:load/>
-		</div>
-		<Marquee speed={200} />
-		<div class="bg-white mt-[100px] py-14">
-			<div class="container">
-				<Managment />
-			</div>
-		</div>
-		<div class="container py-[100px]">
-			<Memory />
-		</div>
-		<div class="container py-[30px]">
-			<Leisure />
-		</div>
+    <div class="bg-[#F0F2F9]">
+        <div class="container py-[100px]">
+            <News client:load />
+        </div>
+        <Marquee speed={200} />
+        <div class="bg-white mt-[100px] py-14">
+            <div class="container">
+                <Managment />
+            </div>
+        </div>
+        <div class="container py-[100px]">
+            <Memory />
+        </div>
+        <div class="container py-[30px]">
+            <Leisure />
+        </div>
 
-		<div class="container">
-			<Map />
-		</div>
-
-	</div>
+        <div class="container">
+            <Map />
+        </div>
+    </div>
 </Layout>
 
 <style>
-	.container {
-		width: 1200px;
-		margin: 0 auto;
-	}
+    .container {
+        width: 1200px;
+        margin: 0 auto;
+    }
 </style>
-

@@ -1,35 +1,13 @@
-import Banner from '../../../assets/images/banner.png'
 import Heroes from '../../../assets/images/heroes.png'
 import medal from '../../../assets/images/medal.png'
 import { Action } from '@/shared/ui/buttons/action'
 import { GradientBox } from '@/shared/ui/box/gradient-box'
+import { IntroductionHat } from './IntroductionHat'
 
 export const Introduction = () => {
     return (
         <>
-            <div className="flex items-center py-[80px]">
-                <div className="flex-1 w-1/2">
-                    <h1 className="text-[42px] mb-6 text-[#1C0062] font-semibold uppercase">
-                        От прошлого к будущему: верность закону
-                    </h1>
-                    <p className="mb-7 text-lg">
-                        <span className="text-[#696464] font-bold">
-                            Новосибирское региональное отделение{' '}
-                        </span>
-                        <br />{' '}
-                        <span className="font-light">
-                            Общероссийской общественной организации <br />{' '}
-                            ветеранов и органов прокуратуры
-                        </span>
-                    </p>
-                    <Action as="button">Вступить</Action>
-                </div>
-
-                <div className="flex-1 w-1/2">
-                    <img src={Banner.src} alt="" />
-                </div>
-            </div>
-
+            <IntroductionHat />
             <GradientBox className="h-[2px] w-full mb-[80px]" />
 
             <div className="rounded-lg overflow-hidden mb-[80px]">
