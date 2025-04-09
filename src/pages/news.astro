@@ -1,0 +1,39 @@
+---
+import { NewsContent } from '@/widgets/newsContent'
+import Layout from '../layouts/Layout.astro'
+import '../styles/global.css'
+import '../styles/marquee.css'
+const htmlFromServer = `
+  <p>Праздничное мероприятие в честь Дня Победы</p>
+  <p>7 мая в нашем городе прошло торжественное мероприятие, посвящённое <strong>79-й годовщине Победы</strong> в Великой Отечественной войне.</p>
+  <p>В нём приняли участие ветераны, школьники, студенты и представители администрации.</p>
+  <ul>
+    <li>Минутой молчания почтили память павших героев</li>
+    <li>Возложили цветы к мемориалу</li>
+    <li>Состоялся праздничный концерт</li>
+  </ul>
+  <p>Спасибо всем, кто помнит историю и чтит подвиг защитников!</p>
+`
+---
+
+<Layout>
+    <main class="max-w-5xl mx-auto pt-[100px] sm:pt-[120px] pb-24 px-4">
+        <NewsContent client:load html={htmlFromServer} />
+    </main>
+</Layout>
+
+<style>
+    .container {
+        width: 100%; /* Теперь контейнер будет гибким */
+        margin: 0 auto;
+        max-width: 1200px; /* Ограничение ширины для больших экранов */
+    }
+
+    /* Дополнительные стили для адаптивности */
+    @media (max-width: 640px) {
+        .container {
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+    }
+</style>
