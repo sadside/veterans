@@ -13,7 +13,7 @@ export const IntroductionHat = () => {
                     <img src={bgGridOneHat.src} alt="Баннер" className="" />
                 </div>
                 <div className="relative z-10 flex flex-col justify-center items-center flex-1">
-                    <p className="text-6xl font-semibold text-[#101A9C] drop-shadow p-4 tracking-wider">
+                    <p className="text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-[#101A9C] drop-shadow p-4 tracking-wider">
                         От прошлого к будущему верность закону
                     </p>
                 </div>
@@ -37,7 +37,7 @@ export const IntroductionHat = () => {
                     <div className="absolute inset-0 bg-black bg-opacity-40" />
                 </div>
                 <div className="relative z-10 flex flex-col justify-center items-center flex-1">
-                    <h2 className="text-3xl font-semibold text-white drop-shadow text-center">
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white drop-shadow text-center">
                         Присоединяйся к нам!
                     </h2>
                 </div>
@@ -48,7 +48,7 @@ export const IntroductionHat = () => {
 
             {/* Блок 4 */}
             <div className="p-4 border border-gray-200 rounded-xl flex flex-col min-h-[350px] bg-[#205094] justify-center">
-                <p className="font-bold mb-2 leading-relaxed text-3xl p-4">
+                <p className="font-bold mb-2 leading-relaxed text-xl sm:text-2xl md:text-3xl p-4">
                     <span className="text-white">
                         Новосибирское региональное отделение
                     </span>{' '}

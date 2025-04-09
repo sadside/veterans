@@ -46,15 +46,20 @@ const data = [
 
 export const Leisure = () => {
     return (
-        <div className="rounded-3xl px-16 py-[72px] bg-leisure-block-bg">
-            <h2 className="text-white text-4xl font-medium uppercase">
+        <div className="rounded-3xl px-6 md:px-10 py-10 md:py-16 bg-leisure-block-bg">
+            <h2 className="text-white text-2xl sm:text-3xl md:text-4xl font-medium uppercase mb-6 md:mb-10 text-center md:text-left">
                 Наш Досуг
             </h2>
-            <div className="flex justify-between gap-[100px] items-start">
-                <img src={arrow.src} className="translate-x-[-20px]" />
-                <div className="flex-1 grid grid-cols-3 grid-rows-2 gap-8 pb-6">
+            <div className="flex flex-col xl:flex-row gap-6 xl:gap-[100px] items-start">
+                <img
+                    src={arrow.src}
+                    className="w-10 hidden xl:block xl:w-auto mb-6 xl:translate-x-[-20px] mx-auto xl:mx-0"
+                    alt="Arrow"
+                />
+                <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8 pb-6">
                     {data.map((item) => (
                         <Block
+                            key={item.title}
                             title={item.title}
                             image={item.image}
                             description={item.description}
@@ -77,16 +82,16 @@ const Block = ({
 }) => {
     return (
         <div className="rounded-lg p-4 bg-white flex flex-col">
-            <h2 className="uppercase text-lg mb-5 font-medium h-[56px]">
+            <h2 className="uppercase text-base sm:text-lg md:text-xl mb-3 font-medium min-h-[48px] text-center xl:text-left break-words">
                 {title}
             </h2>
-            <img src={image} className="mb-5" alt="" />
-            <p className="text-[14px] text-[#858181] mb-3 flex-1">
+            <img src={image} className="mb-4 w-full h-auto rounded-lg" alt="" />
+            <p className="text-sm sm:text-base md:text-lg text-[#858181] mb-3 flex-1 text-center xl:text-left">
                 {description}
             </p>
             <Action
-                className="text-[14px] bg-white border border-gray-500 text-black hover:bg-gray-100"
-                as={'button'}
+                className="text-sm sm:text-base bg-white border border-gray-500 text-black hover:bg-gray-100 mx-auto xl:mx-0"
+                as="button"
             >
                 Подробнее
             </Action>

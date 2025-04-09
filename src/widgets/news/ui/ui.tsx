@@ -19,7 +19,7 @@ const news = [
     },
     {
         image: new2.src,
-        title: 'В преддверии празднования Дня Победы старший прокурор отдела кадров Елена Выступова провела урок для учеников 9-10 классов школы 54, на котором рассказала о работе прокуратуры Новосибирской области во время Великой Отечественной войны. ',
+        title: 'В преддверии празднования Дня Победы старший прокурор отдела кадров Елена Выступова провела урок для учеников 9-10 классов школы 54, на котором рассказала о работе прокуратуры Новосибирской области во время Великой Отечественной войны.',
     },
     {
         image: new5.src,
@@ -27,7 +27,7 @@ const news = [
     },
     {
         image: new3.src,
-        title: 'В Новосибирской области состоялась торжественная церемония  открытия мемориальной доски в честь бывшего прокурора Мошковского района Сырикова Валерия Александровича',
+        title: 'В Новосибирской области состоялась торжественная церемония открытия мемориальной доски в честь бывшего прокурора Мошковского района Сырикова Валерия Александровича',
     },
     {
         image: new4.src,
@@ -42,10 +42,10 @@ export const News = () => {
                 Новости ветеранского движения
             </h2>
 
-            <Carousel opts={{ loop: true }} className="h-full]">
+            <Carousel opts={{ loop: true }} className="h-full">
                 <CarouselContent className="h-full">
                     {news.map((item) => (
-                        <CarouselItem className="basis-1/3">
+                        <CarouselItem className="md:basis-1/3 w-full md:w-auto">
                             <New title={item.title} image={item.image} />
                         </CarouselItem>
                     ))}
@@ -59,8 +59,12 @@ export const News = () => {
 
 const New = ({ title, image }: { title: string; image: string }) => {
     return (
-        <div className="relative h-full">
-            <img src={image} alt="" className="rounded-3xl h-full" />
+        <div className="relative h-full flex flex-col">
+            <img
+                src={image}
+                alt=""
+                className="rounded-3xl w-full h-auto min-h-[300px]" // Добавили min-height для одинакового размера картинок
+            />
             <div className="max-w-[calc(100%-24px)] absolute bottom-3 left-3 bg-[#1570EFB3] rounded-2xl text-white p-3">
                 <h2 className="text-[14px] font-bold mb-[6px] line-clamp-3">
                     {title}

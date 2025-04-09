@@ -17,23 +17,23 @@ import { Managment } from '../widgets/managment'
     </div>
 
     <div class="bg-[#F0F2F9]">
-        <div class="container py-[100px]">
+        <div class="container py-[100px] px-4 sm:px-8 md:px-12">
             <News client:load />
         </div>
         <Marquee speed={200} />
         <div class="bg-white mt-[100px] py-14">
-            <div class="container">
+            <div class="container px-4 sm:px-8 md:px-12">
                 <Managment />
             </div>
         </div>
-        <div class="container py-[100px]">
+        <div class="container py-[100px] px-4 sm:px-8 md:px-12">
             <Memory />
         </div>
-        <div class="container py-[30px]">
+        <div class="container py-[30px] px-4 sm:px-8 md:px-12">
             <Leisure />
         </div>
 
-        <div class="container">
+        <div class="container px-4 sm:px-8 md:px-12">
             <Map />
         </div>
     </div>
@@ -41,7 +41,16 @@ import { Managment } from '../widgets/managment'
 
 <style>
     .container {
-        width: 1200px;
+        width: 100%; /* Теперь контейнер будет гибким */
         margin: 0 auto;
+        max-width: 1200px; /* Ограничение ширины для больших экранов */
+    }
+
+    /* Дополнительные стили для адаптивности */
+    @media (max-width: 640px) {
+        .container {
+            padding-left: 16px;
+            padding-right: 16px;
+        }
     }
 </style>

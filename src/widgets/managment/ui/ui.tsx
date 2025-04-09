@@ -44,25 +44,21 @@ export const Managment = () => {
     return (
         <div>
             <h2 className="text-4xl font-semibold mb-14">Руководство</h2>
-            <div className="flex justify-between gap-8">
+            <div className="flex flex-col md:flex-row justify-between gap-8">
                 {data.map((item) => (
                     <MainBlock
+                        key={item.name}
                         name={item.name}
                         image={item.image}
                         description={item.description}
                     />
                 ))}
-                <div className="flex-1 w-1/2">
-                    <img
-                        src={main.src}
-                        className="mb-5 h-[295px] w-full"
-                        alt=""
-                    />
-
-                    <div className="grid grid-cols-3 grid-rows-2 gap-x-6 gap-y-1">
+                <div className="flex-1 w-full md:w-1/2">
+                    <img src={main.src} className="mb-5 w-full h-auto" alt="" />
+                    <div className="grid grid-cols-2 md:grid-cols-3 grid-rows-2 gap-x-6 gap-y-1">
                         {members.map((member, index) => (
-                            <div key={index}>
-                                <h3 className="font-semibold mb-1">
+                            <div key={index} className="text-center">
+                                <h3 className="font-semibold mb-1 text-sm md:text-base">
                                     {member.name}
                                 </h3>
                                 <p className="text-[14px] text-[#858181]">
@@ -87,10 +83,10 @@ const MainBlock = ({
     description: string
 }) => {
     return (
-        <div className="w-1/4">
-            <img src={image} alt="" className="mb-5" />
+        <div className="w-full md:w-1/4 mb-8 md:mb-0 text-center">
+            <img src={image} alt="" className="mb-5 w-full h-auto" />
             <h2 className="mb-3 font-semibold text-[16px]">{name}</h2>
-            <p className="text-[#858181]">{description}</p>
+            <p className="text-[#858181] text-sm">{description}</p>
         </div>
     )
 }
