@@ -23,18 +23,18 @@ import { Managment } from '../widgets/managment'
         <Marquee speed={200} />
         <div class="bg-white mt-[100px] py-14">
             <div class="container px-4 sm:px-8 md:px-12">
-                <Managment />
+                <Managment client:visible />
             </div>
         </div>
         <div class="container py-[100px] px-4 sm:px-8 md:px-12">
-            <Memory />
+            <Memory client:visible />
         </div>
         <div class="container py-[30px] px-4 sm:px-8 md:px-12">
-            <Leisure />
+            <Leisure client:visible />
         </div>
 
         <div class="container px-4 sm:px-8 md:px-12">
-            <Map />
+            <Map client:visible />
         </div>
     </div>
 </Layout>

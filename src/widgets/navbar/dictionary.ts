@@ -3,7 +3,7 @@ import popover2 from '../../assets/images/popover2.jpg'
 import popover3 from '../../assets/images/popover3.webp'
 
 export const Routes = {
-    documents: '/documents',
+    documents: '/index',
     history: '/history',
     sostav: '/sostav',
     parlament: '/parlament',

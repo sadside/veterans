@@ -11,7 +11,6 @@ import {
     NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu.tsx'
 import { MobileVerticalMenu, NavbarMobile } from '../navbarMobile/index.ts'
-import { AnimatePresence } from 'framer-motion'
 
 const useIsDevice = () => {
     const [device, setDevice] = useState<'mobile' | 'tablet' | 'desktop'>(
