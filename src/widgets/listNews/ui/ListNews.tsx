@@ -48,9 +48,9 @@ export const ListNews = ({
 
                         <div className="flex-1">
                             <h2 className="text-lg sm:text-xl font-semibold mb-2">
-                                <span className=" no-underline">{title}</span>
+                                <span className="no-underline">{title}</span>
                             </h2>
-                            <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
+                            <p className="text-sm sm:text-base text-gray-700 leading-relaxed line-clamp-4">
                                 {parseHtmlToReact(content)}
                             </p>
                         </div>

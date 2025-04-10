@@ -1,21 +1,6 @@
 import axios from 'axios'
 import { baseURL } from '../config/apiConfig'
-
-// Обновлённая типизация для категории с учетом вложенного объекта group
-export type CategoryType = {
-    id: number
-    group: {
-        id: number
-        name: string
-        image: string
-        slug: string
-        created_at: string
-    }
-    name: string
-    description: string
-    slug: string
-    created_at: string
-}
+import type { CategoryType } from '../types/categoryTypes'
 
 export const fetchCategories = async (
     groupId: number

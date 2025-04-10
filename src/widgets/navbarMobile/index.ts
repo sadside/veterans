@@ -1,2 +1,2 @@
 export { NavbarMobile } from './ui/NavbarMobile.tsx'
-export { MobileVerticalMenu } from './ui/NavbarMobile.tsx'
+export { MobileMobileMenu } from './ui/NavbarMobileMenu.tsx'

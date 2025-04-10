@@ -1,39 +1,36 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import type { NewsItem } from '../types'
 import { fetchNewsByCategory } from '@/shared/api/fetchNewsByCategory'
 
 const PAGE_SIZE = 5
 
 export const usePaginatedNews = (categoryId: number, groupId: number) => {
-    const [news, setNews] = useState<NewsItem[]>([]) // Новые новости для текущей страницы
+    // Храним данные для каждой страницы
+    const [newsPages, setNewsPages] = useState<Record<number, NewsItem[]>>({})
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPages, setTotalPages] = useState(1)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
 
-    // Мемоизация новостей для предотвращения повторной загрузки
-    const newsPages = useMemo(() => {
-        const pages: Record<number, NewsItem[]> = {}
-        return pages
-    }, [])
-
-    // Загружаем новости при изменении страницы
     useEffect(() => {
         const loadNews = async () => {
-            // Загружаем новости для текущей страницы
+            // Если данные для текущей страницы уже загружены, просто выключаем загрузку
+            if (newsPages[currentPage]) {
+                setLoading(false)
+                return
+            }
+            setLoading(true)
             try {
-                setLoading(true)
                 const data = await fetchNewsByCategory({
                     categoryId,
                     groupId,
                     page: currentPage,
                     pageSize: PAGE_SIZE,
                 })
-
-                // Сохраняем новости только для текущей страницы
-                newsPages[currentPage] = data.results
-                setNews(data.results) // Теперь новости заменяются для каждой страницы
-
+                setNewsPages((prev) => ({
+                    ...prev,
+                    [currentPage]: data.results,
+                }))
                 setTotalPages(data.total_pages)
             } catch (err) {
                 setError('Ошибка при загрузке новостей')
@@ -41,16 +38,11 @@ export const usePaginatedNews = (categoryId: number, groupId: number) => {
                 setLoading(false)
             }
         }
-
         loadNews()
     }, [categoryId, groupId, currentPage, newsPages])
 
-    // Динамическая загрузка новостей для текущей страницы
-    const paginatedNews = useMemo(() => {
-        return news // Теперь в news всегда содержатся только новости для текущей страницы
-    }, [news, currentPage])
+    const paginatedNews = newsPages[currentPage] || []
 
-    // Функции для изменения страницы
     const nextPage = () =>
         setCurrentPage((prev) => Math.min(prev + 1, totalPages))
     const prevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1))
