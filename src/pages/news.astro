@@ -3,22 +3,11 @@ import { NewsContent } from '@/widgets/newsContent'
 import Layout from '../layouts/Layout.astro'
 import '../styles/global.css'
 import '../styles/marquee.css'
-const htmlFromServer = `
-  <p>Праздничное мероприятие в честь Дня Победы</p>
-  <p>7 мая в нашем городе прошло торжественное мероприятие, посвящённое <strong>79-й годовщине Победы</strong> в Великой Отечественной войне.</p>
-  <p>В нём приняли участие ветераны, школьники, студенты и представители администрации.</p>
-  <ul>
-    <li>Минутой молчания почтили память павших героев</li>
-    <li>Возложили цветы к мемориалу</li>
-    <li>Состоялся праздничный концерт</li>
-  </ul>
-  <p>Спасибо всем, кто помнит историю и чтит подвиг защитников!</p>
-`
 ---
 
 <Layout>
     <main class="container pt-[80px]">
-        <NewsContent client:load html={htmlFromServer} />
+        <NewsContent client:load />
     </main>
 </Layout>
 
