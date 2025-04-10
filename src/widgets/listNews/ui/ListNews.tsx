@@ -25,9 +25,8 @@ export const ListNews = ({
         return <div className="text-center text-red-500">{error}</div>
     }
     if (paginatedNews.length === 0) {
-        return <div className="text-center">Нет новостей для отображения</div>
+        return <LoadingSpinner />
     }
-    console.log(paginatedNews[0].content)
     return (
         <div className="w-full max-w-5xl mx-auto py-8 px-4">
             {loading ? (

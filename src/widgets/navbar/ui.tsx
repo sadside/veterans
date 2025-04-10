@@ -59,7 +59,7 @@ type LinkType = {
     path: string
 }
 
-type GroupType = {
+export type GroupType = {
     id: number // добавлено для идентификации
     name: string
     title: string
@@ -246,8 +246,12 @@ export const Navbar = () => {
                         setIsMobileMenuOpen((prev) => !prev)
                     }
                     isMobileMenuOpen={isMobileMenuOpen}
+                    groups={groups}
                 />
-                <MobileVerticalMenu isMobileMenuOpen={isMobileMenuOpen} />
+                <MobileVerticalMenu
+                    isMobileMenuOpen={isMobileMenuOpen}
+                    groups={groups}
+                />
             </>
         )
     }
