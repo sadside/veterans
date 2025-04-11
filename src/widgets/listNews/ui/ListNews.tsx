@@ -1,14 +1,21 @@
+import { useEffect, useState } from 'react'
 import LoadingSpinner from '@/shared/ui/loadingSpinner/LoadingSpinner'
 import { usePaginatedNews } from '../model/usePaginatedNews'
 import { parseHtmlToReact } from '@/shared/lib/parse-html'
 
-export const ListNews = ({
-    categoryId,
-    groupId,
-}: {
-    categoryId: number
-    groupId: number
-}) => {
+export const ListNews = () => {
+    const [categoryId, setCategoryId] = useState<number>(0)
+    const [groupId, setGroupId] = useState<number>(0)
+
+    useEffect(() => {
+        const searchParams = new URLSearchParams(window.location.search)
+        const category = Number(searchParams.get('category_id'))
+        const group = Number(searchParams.get('group_id'))
+
+        if (!isNaN(category)) setCategoryId(category)
+        if (!isNaN(group)) setGroupId(group)
+    }, [])
+
     const {
         paginatedNews,
         currentPage,
@@ -24,12 +31,10 @@ export const ListNews = ({
     if (error) {
         return <div className="text-center text-red-500">{error}</div>
     }
-    if (paginatedNews.length === 0) {
-        return <LoadingSpinner />
-    }
+
     return (
         <div className="w-full max-w-5xl mx-auto py-8 px-4">
-            {loading ? (
+            {paginatedNews.length === 0 && loading ? (
                 <LoadingSpinner size="w-16 h-16" />
             ) : (
                 paginatedNews.map(({ id, title, content, image }) => (
@@ -42,10 +47,9 @@ export const ListNews = ({
                             <img
                                 src={image}
                                 alt={title}
-                                className="w-full h-full object-cover "
+                                className="w-full h-full object-cover"
                             />
                         </div>
-
                         <div className="flex-1">
                             <h2 className="text-lg sm:text-xl font-semibold mb-2">
                                 <span className="no-underline">{title}</span>

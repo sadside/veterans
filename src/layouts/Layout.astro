@@ -1,5 +1,7 @@
 ---
+import { fetchGroupsWithCategories } from '@/shared/utils/loadGroupsWithCategories'
 import { Navbar } from '../widgets/navbar'
+const navbarData = await fetchGroupsWithCategories()
 ---
 
 <!doctype html>
@@ -12,7 +14,7 @@ import { Navbar } from '../widgets/navbar'
         <title>Astro Basics</title>
     </head>
     <body>
-        <Navbar client:load />
+        <Navbar client:load navbarData={navbarData} />
         <slot />
     </body>
 </html>

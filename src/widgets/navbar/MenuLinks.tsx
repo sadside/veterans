@@ -11,15 +11,14 @@ import LoadingSpinner from '@/shared/ui/loadingSpinner/LoadingSpinner'
 import { parseHtmlToReact } from '@/shared/lib/parse-html'
 import type { GroupType } from '@/shared/types/groupTypes'
 import type { CategoryType } from '@/shared/types/categoryTypes'
-import { fetchCategories } from '@/shared/api/fetchCategories'
 import { loadCategoriesForGroup } from '@/shared/utils/loadCategoriesForGroup'
 
 type MenuLinksProps = {
     variant: 'tablet' | 'desktop'
-    groups: GroupType[]
+    navbarData: GroupType[]
 }
 
-export const MenuLinks = ({ variant, groups }: MenuLinksProps) => {
+export const MenuLinks = ({ variant, navbarData }: MenuLinksProps) => {
     const contentPadding = variant === 'tablet' ? 'p-2' : 'p-4'
     const imgStyle =
         variant === 'tablet'
@@ -27,18 +26,11 @@ export const MenuLinks = ({ variant, groups }: MenuLinksProps) => {
             : 'h-[330px] rounded-sm max-w-[240px]'
     const linksContainerWidth = variant === 'tablet' ? 'w-[250px]' : 'w-[330px]'
     const textSize = variant === 'tablet' ? 'text-[12px]' : 'text-[14px]'
-
-    const [categoriesByGroup, setCategoriesByGroup] = useState<
-        Record<number, CategoryType[]>
-    >({})
-    const [isLoadingCategories, setIsLoadingCategories] = useState<
-        Record<number, boolean>
-    >({})
-
+    console.log(navbarData)
     return (
         <NavigationMenu>
             <NavigationMenuList className="h-full flex items-center gap-2">
-                {groups.map((group) => (
+                {navbarData.map((group) => (
                     <NavigationMenuItem key={group.id}>
                         <NavigationMenuTrigger
                             className={`cursor-pointer font-semibold ${
@@ -47,14 +39,6 @@ export const MenuLinks = ({ variant, groups }: MenuLinksProps) => {
                                     : 'text-[16px]'
                             }`}
                             withArrow={true}
-                            onMouseEnter={() =>
-                                loadCategoriesForGroup(
-                                    group.id,
-                                    categoriesByGroup,
-                                    setCategoriesByGroup,
-                                    setIsLoadingCategories
-                                )
-                            }
                         >
                             {group.name}
                         </NavigationMenuTrigger>
@@ -76,16 +60,11 @@ export const MenuLinks = ({ variant, groups }: MenuLinksProps) => {
                                         </p>
                                     </div>
                                 </div>
-                                <div
-                                    className={`${linksContainerWidth} shrink-0`}
-                                >
-                                    {isLoadingCategories[group.id] ? (
-                                        <div className="flex justify-center">
-                                            <LoadingSpinner size="w-8 h-8" />
-                                        </div>
-                                    ) : categoriesByGroup[group.id] ? (
-                                        categoriesByGroup[group.id].map(
-                                            (category) => (
+                                <div className={linksContainerWidth}>
+                                    {group.categories &&
+                                    group.categories.length > 0 ? (
+                                        group.categories.map(
+                                            (category: CategoryType) => (
                                                 <NavigationMenuLink
                                                     key={category.id}
                                                     asChild

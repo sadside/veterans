@@ -8,10 +8,10 @@ export type LinkType = {
 
 export type GroupType = {
     id: number
-    group: CategoryType
     name: string
     title: string
     description: string
     image: string
+    categories: CategoryType[]
     links?: LinkType[]
 }
