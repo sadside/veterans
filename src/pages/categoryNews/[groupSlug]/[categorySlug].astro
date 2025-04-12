@@ -1,16 +1,16 @@
 ---
 export const prerender = false
-import { ListNews } from '@/widgets/listNews'
 import '../../../styles/global.css'
 import '../../../styles/marquee.css'
 import Layout from '@/layouts/Layout.astro'
 import { fetchNewsByCategory } from '@/shared/api/fetchNewsByCategory'
-import type { NewsTypes, NewsItem } from '@/shared/types/newsTypes'
 import ServerBreadcrumbs from '@/shared/ui/breadcrumbs/ServerBreadcrumbs.astro'
-
+import { Image } from 'astro:assets'
+import NewList from '@/widgets/new-list/NewList.astro'
 const url = new URL(Astro.request.url)
 const categoryId = url.searchParams.get('category_id')
 const groupId = url.searchParams.get('group_id')
+const page = url.searchParams.get('page') ? Number(url.searchParams.get('page')) : 1
 
 const parsedCategoryId = categoryId ? Number(categoryId) : null
 const parsedGroupId = groupId ? Number(groupId) : null
@@ -22,8 +22,8 @@ if (parsedCategoryId && parsedGroupId) {
         newsData = await fetchNewsByCategory({
             categoryId: parsedCategoryId,
             groupId: parsedGroupId,
-            page: 1,
-            pageSize: 10, // Увеличиваем количество новостей для отображения
+            page: page,
+            pageSize: 10,
         })
     } catch (err) {
         console.error('Ошибка при загрузке новостей:', err)
@@ -31,19 +31,12 @@ if (parsedCategoryId && parsedGroupId) {
     }
 }
 
-// Проверяем структуру данных и получаем массив новостей
 const newsItems = newsData && newsData.results ? newsData.results : []
+const totalPages = newsData ? newsData.total_pages : 1
 
-// Разделяем новости: первая - для главной карточки, остальные - для списка
 const featuredNews = newsItems.length > 0 ? newsItems[0] : null;
-const otherNews = newsItems.length > 1 ? { 
-    categoryId: parsedCategoryId,
-    groupId: parsedGroupId,
-    results: newsItems.slice(1),
-    total_pages: newsData ? newsData.total_pages : 1
-} : null;
+const otherNewsItems = newsItems.length > 1 ? newsItems.slice(1) : [];
 
-// Функция для генерации URL новости
 const getNewsUrl = (newsId: number) => {
     const pathSegments = url.pathname.split('/').filter(Boolean);
     const slugPath = pathSegments.join('/');
@@ -60,11 +53,21 @@ const getNewsUrl = (newsId: number) => {
         {featuredNews && (
             <a href={getNewsUrl(featuredNews.id)} class="block featured-news mb-8 rounded-lg overflow-hidden shadow-lg cursor-pointer">
                 <div class="relative">
-                    <img 
-                        src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1zwhySGCEBxRRFYIcQgvOLOpRGqrT3d7Qng&s"} 
-                        alt={featuredNews.title}
-                        class="w-full h-[200px] sm:h-[250px] md:h-[350px] object-cover"
-                    />
+                    {featuredNews.image ? (
+                        <Image 
+                            src={featuredNews.image} 
+                            alt={featuredNews.title}
+                            width={800}
+                            height={450}
+                            quality={100}
+                            loading="lazy"
+                            class="w-full h-[200px] sm:h-[250px] md:h-[350px] object-cover"
+                        />
+                    ) : (
+                        <div class="w-full h-[200px] sm:h-[250px] md:h-[350px] bg-gray-300 flex items-center justify-center">
+                            <span class="text-gray-600 text-lg font-medium">Изображение отсутствует</span>
+                        </div>
+                    )}
                     <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#1570EF]/90 to-transparent p-4 md:p-6">
                         <h2 class="text-white text-xl md:text-2xl lg:text-3xl font-bold">{featuredNews.title}</h2>
                         <div class="hidden md:block text-white/90 mt-2 news-description" set:html={featuredNews.content}>
@@ -77,21 +80,12 @@ const getNewsUrl = (newsId: number) => {
         <div class="news-list">
             <h3 class="text-xl font-bold mb-6 text-[#1570EF] border-b-2 border-[#1570EF] pb-2">Последние новости</h3>
             
-            {otherNews && (
-                <ListNews
-                    client:load
-                    categoryId={categoryId}
-                    groupId={groupId}
-                    newsData={otherNews}
-                    client:only
-                />
-            )}
-            
-            {!otherNews && !featuredNews && (
-                <div class="text-center py-8 text-gray-500">
-                    Новости не найдены
-                </div>
-            )}
+            <NewList 
+                newsItems={otherNewsItems} 
+                totalPages={totalPages} 
+                currentPage={page} 
+                activeColor="#1570EF" 
+            />
         </div>
     </div>
 </Layout>

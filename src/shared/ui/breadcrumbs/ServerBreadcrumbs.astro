@@ -1,11 +1,9 @@
 ---
-// Интерфейс для типа хлебных крошек
 interface Breadcrumb {
     href: string;
     label: string;
 }
 
-// Пропсы для компонента
 interface Props {
     pathname: string;
     activeColor?: string;
@@ -13,18 +11,12 @@ interface Props {
 
 const { pathname, activeColor = "#1570EF" } = Astro.props;
 
-// Генерация хлебных крошек на сервере
 const generateBreadcrumbs = (path: string): Breadcrumb[] => {
-    // Получаем сегменты пути
     const pathSegments = path.split('/').filter(Boolean);
     
-    // Формируем массив хлебных крошек
     const breadcrumbs: Breadcrumb[] = [];
-    
-    // Пропускаем первый сегмент (например, 'categoryNews')
     const segments = pathSegments.slice(1);
     
-    // Добавляем крошки для каждого сегмента
     segments.forEach((segment, index) => {
         const href = '/' + segments.slice(0, index + 1).join('/');
         const label = decodeURIComponent(segment)

@@ -1,0 +1,138 @@
+---
+
+interface NewsItem {
+    id: number;
+    title: string;
+    content: string;
+    image: string;
+}
+
+type Props = {
+    newsItems: NewsItem[];
+    totalPages: number;
+    currentPage: number;
+    activeColor?: string;
+}
+
+const { newsItems, totalPages, currentPage = 1, activeColor = "#1570EF" } = Astro.props;
+
+const getNewsUrl = (newsId: number) => {
+    const pathSegments = Astro.url.pathname.split('/').filter(Boolean);
+    const slugPath = pathSegments.join('/');
+    return `/news/${slugPath}?news_id=${newsId}`;
+};
+---
+
+<div class="w-full mx-auto py-4">
+    {newsItems.length === 0 ? (
+        <div class="text-center py-8 text-gray-500">
+            Новости не найдены
+        </div>
+    ) : (
+        <div class="grid gap-6">
+            {newsItems.map((item) => (
+                <a 
+                    href={getNewsUrl(item.id)} 
+                    class="group flex flex-col sm:flex-row gap-4 p-4 border-b border-gray-200 rounded-lg bg-white shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer no-underline"
+                >
+                    <div class="sm:w-36 sm:h-36 rounded-lg overflow-hidden flex-shrink-0">
+                        {item.image ? (
+                            <img
+                                src={item.image}
+                                alt={item.title}
+                                loading="lazy"
+                                class="w-full h-full object-cover"
+                            />
+                        ) : (
+                            <div class="w-full h-full bg-gray-300 flex items-center justify-center">
+                                <span class="text-gray-600 text-sm text-center">Изображение отсутствует</span>
+                            </div>
+                        )}
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-lg font-medium text-gray-900 mb-2 group-hover:text-[#1570EF]">
+                            {item.title}
+                        </h3>
+                        <div class="text-sm text-gray-700 line-clamp-3" set:html={item.content} />
+                        <div class="mt-2">
+                            <span class={`text-[${activeColor}] text-sm font-medium inline-flex items-center hover:underline`}>
+                                Читать далее
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="h-4 w-4 ml-1"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+                                        clip-rule="evenodd"
+                                    />
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            ))}
+        </div>
+    )}
+
+    {/* Пагинация */}
+    {totalPages > 1 && (
+        <div class="flex justify-center flex-wrap gap-2 mt-8">
+            <a
+                href={`${Astro.url.pathname}?page=${Math.max(currentPage - 1, 1)}&category_id=${new URL(Astro.request.url).searchParams.get('category_id')}&group_id=${new URL(Astro.request.url).searchParams.get('group_id')}`}
+                class={`px-4 py-2 rounded text-sm font-medium ${
+                    currentPage === 1 
+                    ? 'text-gray-400 bg-gray-100 pointer-events-none opacity-50' 
+                    : 'text-gray-700 bg-gray-100 hover:bg-gray-200'
+                }`}
+            >
+                Назад
+            </a>
+
+            {Array.from({ length: totalPages }, (_, i) => (
+                <a
+                    href={`${Astro.url.pathname}?page=${i + 1}&category_id=${new URL(Astro.request.url).searchParams.get('category_id')}&group_id=${new URL(Astro.request.url).searchParams.get('group_id')}`}
+                    class={`px-4 py-2 rounded text-sm font-medium ${
+                        currentPage === i + 1
+                            ? `bg-[${activeColor}] text-white`
+                            : 'text-gray-700 bg-gray-100 hover:bg-gray-200'
+                    }`}
+                >
+                    {i + 1}
+                </a>
+            ))}
+
+            <a
+                href={`${Astro.url.pathname}?page=${Math.min(currentPage + 1, totalPages)}&category_id=${new URL(Astro.request.url).searchParams.get('category_id')}&group_id=${new URL(Astro.request.url).searchParams.get('group_id')}`}
+                class={`px-4 py-2 rounded text-sm font-medium ${
+                    currentPage === totalPages 
+                    ? 'text-gray-400 bg-gray-100 pointer-events-none opacity-50' 
+                    : 'text-gray-700 bg-gray-100 hover:bg-gray-200'
+                }`}
+            >
+                Далее
+            </a>
+        </div>
+    )}
+</div>
+
+<style>
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-height: 4.5em;
+    }
+    
+    a {
+        text-decoration: none !important;
+    }
+    
+    a:hover {
+        text-decoration: none !important;
+    }
+</style> 

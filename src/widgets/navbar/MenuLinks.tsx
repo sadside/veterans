@@ -29,6 +29,14 @@ export const MenuLinks = ({ variant, navbarData }: MenuLinksProps) => {
     return (
         <NavigationMenu>
             <NavigationMenuList className="h-full flex items-center gap-2">
+                <NavigationMenuItem>
+                    <a
+                        href="/memorials"
+                        className="text-sm font-medium text-gray-700 hover:text-[#1570EF] transition-colors"
+                    >
+                        Мемориалы
+                    </a>
+                </NavigationMenuItem>
                 {navbarData.map((group) => (
                     <NavigationMenuItem key={group.id}>
                         <NavigationMenuTrigger
