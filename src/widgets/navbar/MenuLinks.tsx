@@ -26,7 +26,6 @@ export const MenuLinks = ({ variant, navbarData }: MenuLinksProps) => {
             : 'h-[330px] rounded-sm max-w-[240px]'
     const linksContainerWidth = variant === 'tablet' ? 'w-[250px]' : 'w-[330px]'
     const textSize = variant === 'tablet' ? 'text-[12px]' : 'text-[14px]'
-    console.log(navbarData)
     return (
         <NavigationMenu>
             <NavigationMenuList className="h-full flex items-center gap-2">
@@ -70,7 +69,7 @@ export const MenuLinks = ({ variant, navbarData }: MenuLinksProps) => {
                                                     asChild
                                                 >
                                                     <a
-                                                        href={`/categoryNews?category_id=${category.id}&group_id=${group.id}`}
+                                                        href={`/categoryNews/${group.slug}/${category.slug}?category_id=${category.id}&group_id=${group.id}`}
                                                         className="block mb-1 cursor-pointer hover:bg-gray-100 px-2 pb-2 transition-all rounded-md"
                                                     >
                                                         <span className="text-sm font-bold">

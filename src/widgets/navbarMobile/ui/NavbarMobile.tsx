@@ -5,7 +5,7 @@ import Prosecution from '@/components/ui/prosecution'
 type Props = {
     toggleMobileMenu: () => void
     isMobileMenuOpen: boolean
-    groups: GroupType[]
+    navbarData: GroupType[]
 }
 
 export const NavbarMobile = ({ toggleMobileMenu, isMobileMenuOpen }: Props) => (

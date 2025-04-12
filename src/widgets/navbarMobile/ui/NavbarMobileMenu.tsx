@@ -1,11 +1,10 @@
-import { fetchCategories } from '@/shared/api/fetchCategories'
-import LoadingSpinner from '@/shared/ui/loadingSpinner/LoadingSpinner'
-import { parseHtmlToReact } from '@/shared/lib/parse-html'
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
+
+import { parseHtmlToReact } from '@/shared/lib/parse-html'
 import type { GroupType } from '@/shared/types/groupTypes'
 import type { CategoryType } from '@/shared/types/categoryTypes'
-import { loadCategoriesForGroup } from '@/shared/utils/loadCategoriesForGroup'
+
 const menuVariants = {
     initial: { scaleY: 0, opacity: 0 },
     open: { scaleY: 1, opacity: 1 },
@@ -17,12 +16,13 @@ const detailVariants = {
     open: { x: 0, opacity: 1 },
     closed: { x: 100, opacity: 0 },
 }
+
 export const MobileMobileMenu = ({
     isMobileMenuOpen,
-    groups,
+    navbarData,
 }: {
     isMobileMenuOpen: boolean
-    groups: GroupType[]
+    navbarData: GroupType[] // получаем данные о группах и категориях
 }) => {
     const [selectedGroup, setSelectedGroup] = useState<number | null>(null)
 
@@ -35,14 +35,6 @@ export const MobileMobileMenu = ({
             return () => clearTimeout(timeout)
         }
     }, [isMobileMenuOpen])
-
-    // Храним полученные категории для каждой группы (id группы — массив категорий)
-    const [categoriesByGroup, setCategoriesByGroup] = useState<
-        Record<number, CategoryType[]>
-    >({})
-    const [isLoadingCategories, setIsLoadingCategories] = useState<
-        Record<number, boolean>
-    >({})
 
     return (
         <motion.div
@@ -58,18 +50,10 @@ export const MobileMobileMenu = ({
                 {/* Левая колонка – список групп */}
                 <div className="w-1/3 border-r border-gray-200 overflow-y-auto">
                     <ul className="flex flex-col">
-                        {groups.map((group, index) => (
+                        {navbarData.map((group, index) => (
                             <li
                                 key={index}
-                                onClick={async () => {
-                                    setSelectedGroup(index)
-                                    loadCategoriesForGroup(
-                                        group.id,
-                                        categoriesByGroup,
-                                        setCategoriesByGroup,
-                                        setIsLoadingCategories
-                                    )
-                                }}
+                                onClick={() => setSelectedGroup(index)}
                                 className={`border-b border-gray-200 p-3 text-[16px] cursor-pointer hover:bg-gray-100 
                                 ${selectedGroup === index ? 'font-semibold bg-gray-100' : ''}`}
                             >
@@ -81,7 +65,7 @@ export const MobileMobileMenu = ({
 
                 {/* Правая колонка – детали выбранной группы */}
                 <div className="w-2/3 p-4 overflow-y-auto">
-                    {selectedGroup !== null && groups[selectedGroup] && (
+                    {selectedGroup !== null && navbarData[selectedGroup] && (
                         <motion.div
                             key={selectedGroup}
                             variants={detailVariants}
@@ -94,30 +78,31 @@ export const MobileMobileMenu = ({
                         >
                             {/* Оборачиваем весь контент в ссылку */}
                             <a
-                                href={`/categoryNews?category_id=${groups[selectedGroup].id}&group_id=${groups[selectedGroup].id}`}
-                                className="block mb-4"
+                                href={`/categoryNews?category_id=${navbarData[selectedGroup].id}&group_id=${navbarData[selectedGroup].id}`}
+                                className="block mb-4 relative"
                             >
-                                {/* Добавляем изображение группы */}
-                                <img
-                                    src={groups[selectedGroup].image}
-                                    className={imgStyle}
-                                    alt={groups[selectedGroup].name}
-                                />
+                                {/* Контейнер для картинки с затемнением */}
+                                <div className="relative">
+                                    <img
+                                        src={navbarData[selectedGroup].image}
+                                        className={imgStyle}
+                                        alt={navbarData[selectedGroup].name}
+                                    />
+                                    {/* Черное затемнение */}
+                                    <div className="absolute inset-0 bg-black opacity-40 rounded-sm"></div>
+                                </div>
                             </a>
 
-                            {isLoadingCategories[groups[selectedGroup].id] ? (
-                                <div className="flex justify-center">
-                                    <LoadingSpinner size="w-8 h-8" />
-                                </div>
-                            ) : categoriesByGroup[groups[selectedGroup].id] ? (
-                                categoriesByGroup[groups[selectedGroup].id].map(
-                                    (category) => (
+                            {/* Рендерим категории для выбранной группы */}
+                            {navbarData[selectedGroup].categories?.length ? (
+                                navbarData[selectedGroup].categories.map(
+                                    (category: CategoryType) => (
                                         <div key={category.id}>
                                             <a
-                                                href={`/categoryNews?category_id=${category.id}&group_id=${groups[selectedGroup].id}`}
+                                                href={`/categoryNews/${navbarData[selectedGroup].slug}/${category.slug}?category_id=${category.id}&group_id=${navbarData[selectedGroup].id}`}
                                                 className="block mb-1 cursor-pointer hover:bg-gray-100 px-2 pb-2 transition-all rounded-md"
                                             >
-                                                <span className="text-sm font-medium ">
+                                                <span className="text-sm font-medium">
                                                     {category.name}
                                                 </span>
                                                 <span className="text-xs text-gray-600 block hover:underline">
@@ -133,18 +118,20 @@ export const MobileMobileMenu = ({
                                 <div>Нет категорий для отображения</div>
                             )}
 
-                            {groups[selectedGroup].links?.length ? (
+                            {navbarData[selectedGroup].links?.length ? (
                                 <div className="space-y-4">
-                                    {groups[selectedGroup].links.map((link) => (
-                                        <div key={link.name}>
-                                            <div className="font-semibold text-base mb-1">
-                                                {link.name}
+                                    {navbarData[selectedGroup].links.map(
+                                        (link) => (
+                                            <div key={link.name}>
+                                                <div className="font-semibold text-base mb-1">
+                                                    {link.name}
+                                                </div>
+                                                <p className="text-sm text-gray-700">
+                                                    {link.description}
+                                                </p>
                                             </div>
-                                            <p className="text-sm text-gray-700">
-                                                {link.description}
-                                            </p>
-                                        </div>
-                                    ))}
+                                        )
+                                    )}
                                 </div>
                             ) : (
                                 <p className="text-sm text-gray-500"></p>

@@ -1,0 +1,70 @@
+---
+export const prerender = false
+import { ListNews } from '@/widgets/listNews'
+import '../../../styles/global.css'
+import '../../../styles/marquee.css'
+import { ImportantNews } from '@/widgets/importantNews'
+import Layout from '@/layouts/Layout.astro'
+import { Breadcrumbs } from '@/shared/ui/breadcrumbs/breadcrumbs'
+import { fetchNewsByCategory } from '@/shared/api/fetchNewsByCategory'
+import type { NewsTypes } from '@/shared/types/newsTypes'
+
+const url = new URL(Astro.request.url) // Преобразуем строку в объект URL
+const categoryId = url.searchParams.get('category_id')
+const groupId = url.searchParams.get('group_id')
+
+// Преобразуем параметры в числа, если они присутствуют, иначе используем null
+const parsedCategoryId = categoryId ? Number(categoryId) : null
+const parsedGroupId = groupId ? Number(groupId) : null
+
+let newsData = null
+
+if (parsedCategoryId && parsedGroupId) {
+    try {
+        newsData = await fetchNewsByCategory({
+            categoryId: parsedCategoryId,
+            groupId: parsedGroupId,
+            page: 1, // Вы можете добавить логику для работы с пагинацией
+            pageSize: 5,
+        })
+    } catch (err) {
+        console.error('Ошибка при загрузке новостей:', err)
+        newsData = null
+    }
+}
+---
+
+<Layout>
+    <div class="container pt-[80px] pl-28">
+        <Breadcrumbs client:only />
+    </div>
+    <div class="container">
+        <ImportantNews client:load />
+    </div>
+
+    <div>
+        <ListNews
+            client:load
+            categoryId={categoryId}
+            groupId={groupId}
+            newsData={newsData}
+            client:only
+        />
+    </div>
+</Layout>
+
+<style>
+    .container {
+        width: 100%; /* Теперь контейнер будет гибким */
+        margin: 0 auto;
+        max-width: 1200px; /* Ограничение ширины для больших экранов */
+    }
+
+    /* Дополнительные стили для адаптивности */
+    @media (max-width: 640px) {
+        .container {
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+    }
+</style>

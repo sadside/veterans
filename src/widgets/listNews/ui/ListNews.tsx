@@ -1,21 +1,19 @@
-import { useEffect, useState } from 'react'
 import LoadingSpinner from '@/shared/ui/loadingSpinner/LoadingSpinner'
 import { usePaginatedNews } from '../model/usePaginatedNews'
 import { parseHtmlToReact } from '@/shared/lib/parse-html'
+import type { NewsTypes } from '@/shared/types/newsTypes'
 
-export const ListNews = () => {
-    const [categoryId, setCategoryId] = useState<number>(0)
-    const [groupId, setGroupId] = useState<number>(0)
+interface ListNewsProps {
+    categoryId: string | null
+    groupId: string | null
+    newsData: NewsTypes // Пропс для данных, полученных с сервера
+}
 
-    useEffect(() => {
-        const searchParams = new URLSearchParams(window.location.search)
-        const category = Number(searchParams.get('category_id'))
-        const group = Number(searchParams.get('group_id'))
-
-        if (!isNaN(category)) setCategoryId(category)
-        if (!isNaN(group)) setGroupId(group)
-    }, [])
-
+export const ListNews: React.FC<ListNewsProps> = ({
+    categoryId,
+    groupId,
+    newsData,
+}) => {
     const {
         paginatedNews,
         currentPage,
@@ -26,10 +24,22 @@ export const ListNews = () => {
         setCurrentPage,
         nextPage,
         prevPage,
-    } = usePaginatedNews(categoryId, groupId)
+    } = usePaginatedNews(Number(categoryId), Number(groupId), newsData) // Преобразование типов в число
 
     if (error) {
         return <div className="text-center text-red-500">{error}</div>
+    }
+
+    const handleNewsClick = (newsId: number) => {
+        // Получаем текущий URL
+        const currentUrl = window.location.pathname
+        // Разбиваем путь на сегменты
+        const pathSegments = currentUrl.split('/').filter(Boolean)
+        // Собираем всю часть пути за исключением первого сегмента
+        const slugPath = pathSegments.slice(1).join('/')
+
+        // Перенаправляем на страницу новости с параметром news_id
+        window.location.href = `/news/${slugPath}?news_id=${newsId}`
     }
 
     return (
@@ -37,10 +47,10 @@ export const ListNews = () => {
             {paginatedNews.length === 0 && loading ? (
                 <LoadingSpinner size="w-16 h-16" />
             ) : (
-                paginatedNews.map(({ id, title, content, image }) => (
-                    <a
+                paginatedNews.map(({ id, title, content, image, slug }) => (
+                    <p
                         key={id}
-                        href={`/news/?news_id=${id}`}
+                        onClick={() => handleNewsClick(id)}
                         className="flex flex-col sm:flex-row gap-6 mb-10 border-b pb-6 transition-colors duration-300 hover:bg-[#F3F4F6] cursor-pointer"
                     >
                         <div className="w-32 h-32 sm:w-40 sm:h-40 rounded overflow-hidden">
@@ -58,7 +68,7 @@ export const ListNews = () => {
                                 {parseHtmlToReact(content)}
                             </p>
                         </div>
-                    </a>
+                    </p>
                 ))
             )}
 

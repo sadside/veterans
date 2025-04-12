@@ -1,11 +1,17 @@
 import React from 'react'
 
 export const Breadcrumbs: React.FC = () => {
-    const location =
-        typeof window !== 'undefined' ? window.location : { pathname: '/' }
+    if (typeof window === 'undefined') {
+        return null // Возвращаем null на сервере
+    }
 
-    const pathSegments = location.pathname.split('/').filter(Boolean)
+    // Получаем сегменты пути
+    const pathSegments = window.location.pathname.split('/').filter(Boolean)
 
+    // Пропускаем первый сегмент (например, 'categoryNews')
+    pathSegments.shift()
+
+    // Формируем хлебные крошки
     const breadcrumbs = pathSegments.map((segment, index) => {
         const href = '/' + pathSegments.slice(0, index + 1).join('/')
         const label = decodeURIComponent(segment)
@@ -27,18 +33,7 @@ export const Breadcrumbs: React.FC = () => {
                     <React.Fragment key={crumb.href}>
                         <span>›</span>
                         <li>
-                            {index === breadcrumbs.length - 1 ? (
-                                <span className="text-gray-500">
-                                    {crumb.label}
-                                </span>
-                            ) : (
-                                <a
-                                    href={crumb.href}
-                                    className="text-blue-600 hover:underline"
-                                >
-                                    {crumb.label}
-                                </a>
-                            )}
+                            <span className="text-gray-500">{crumb.label}</span>
                         </li>
                     </React.Fragment>
                 ))}

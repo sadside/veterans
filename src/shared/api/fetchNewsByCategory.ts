@@ -1,19 +1,13 @@
 import axios from 'axios'
 import { baseURL } from '../config/apiConfig'
-
-interface FetchNewsParams {
-    categoryId: number
-    groupId: number
-    page?: number
-    pageSize?: number
-}
+import type { NewsTypes } from '../types/newsTypes'
 
 export const fetchNewsByCategory = async ({
     categoryId,
     groupId,
     page,
     pageSize = 5,
-}: FetchNewsParams) => {
+}: any) => {
     try {
         const response = await axios.get(`${baseURL}news/news/`, {
             params: {

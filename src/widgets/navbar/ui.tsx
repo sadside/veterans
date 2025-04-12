@@ -4,6 +4,7 @@ import { MenuLinks } from './MenuLinks.tsx'
 import Logo from '@/components/ui/logo.tsx'
 import Prosecution from '@/components/ui/prosecution.tsx'
 import { useIsDevice } from './model/useIsDevice.ts'
+import { MobileMobileMenu, NavbarMobile } from '../navbarMobile/index.ts'
 type NavbarProps = {
     navbarData: GroupType[]
 }
@@ -11,23 +12,23 @@ export const Navbar = ({ navbarData }: NavbarProps) => {
     const device = useIsDevice()
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
-    // if (device === 'mobile') {
-    //     return (
-    //         <>
-    //             <NavbarMobile
-    //                 toggleMobileMenu={() =>
-    //                     setIsMobileMenuOpen((prev) => !prev)
-    //                 }
-    //                 isMobileMenuOpen={isMobileMenuOpen}
-    //                 groups={groups}
-    //             />
-    //             <MobileMobileMenu
-    //                 isMobileMenuOpen={isMobileMenuOpen}
-    //                 groups={groups}
-    //             />
-    //         </>
-    //     )
-    // }
+    if (device === 'mobile') {
+        return (
+            <>
+                <NavbarMobile
+                    toggleMobileMenu={() =>
+                        setIsMobileMenuOpen((prev) => !prev)
+                    }
+                    isMobileMenuOpen={isMobileMenuOpen}
+                    navbarData={navbarData}
+                />
+                <MobileMobileMenu
+                    isMobileMenuOpen={isMobileMenuOpen}
+                    navbarData={navbarData}
+                />
+            </>
+        )
+    }
 
     const commonClasses =
         device === 'tablet'

@@ -14,4 +14,5 @@ export type GroupType = {
     image: string
     categories: CategoryType[]
     links?: LinkType[]
+    slug: string
 }

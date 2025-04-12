@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react'
-import type { NewsItem } from '../types'
 import { fetchNewsByCategory } from '@/shared/api/fetchNewsByCategory'
+import type { NewsItem, NewsTypes } from '@/shared/types/newsTypes'
 
 const PAGE_SIZE = 5
 
-export const usePaginatedNews = (categoryId: number, groupId: number) => {
+export const usePaginatedNews = (
+    categoryId: number,
+    groupId: number,
+    newsData: NewsTypes
+) => {
     // Храним данные для каждой страницы
     const [newsPages, setNewsPages] = useState<Record<number, NewsItem[]>>({})
     const [currentPage, setCurrentPage] = useState(1)
@@ -21,17 +25,11 @@ export const usePaginatedNews = (categoryId: number, groupId: number) => {
             }
             setLoading(true)
             try {
-                const data = await fetchNewsByCategory({
-                    categoryId,
-                    groupId,
-                    page: currentPage,
-                    pageSize: PAGE_SIZE,
-                })
                 setNewsPages((prev) => ({
                     ...prev,
-                    [currentPage]: data.results,
+                    [currentPage]: newsData.results, // Используем данные из newsData
                 }))
-                setTotalPages(data.total_pages)
+                setTotalPages(newsData.total_pages) // Используем total_pages из newsData
             } catch (err) {
                 setError('Ошибка при загрузке новостей')
             } finally {
@@ -39,7 +37,7 @@ export const usePaginatedNews = (categoryId: number, groupId: number) => {
             }
         }
         loadNews()
-    }, [categoryId, groupId, currentPage, newsPages])
+    }, [categoryId, groupId, currentPage, newsPages, newsData]) // Обновляем зависимости
 
     const paginatedNews = newsPages[currentPage] || []
 
