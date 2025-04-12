@@ -62,7 +62,7 @@ export const MenuLinks = ({ variant, navbarData }: MenuLinksProps) => {
                 <NavigationMenuItem>
                     <a
                         href="/memorials"
-                        className="text-sm font-medium text-gray-700 hover:text-[#1570EF] transition-colors"
+                        className="text-[25px]  font-sign  hover:text-[#1570EF] transition-colors"
                     >
                         Мемориалы
                     </a>
@@ -70,10 +70,10 @@ export const MenuLinks = ({ variant, navbarData }: MenuLinksProps) => {
                 {navbarData.map((group) => (
                     <NavigationMenuItem key={group.id}>
                         <NavigationMenuTrigger
-                            className={`cursor-pointer font-semibold ${
+                            className={`cursor-pointer  font-sign ${
                                 variant === 'tablet'
                                     ? 'text-[14px]'
-                                    : 'text-[16px]'
+                                    : 'text-[25px]'
                             }`}
                             withArrow={true}
                         >
@@ -81,7 +81,7 @@ export const MenuLinks = ({ variant, navbarData }: MenuLinksProps) => {
                         </NavigationMenuTrigger>
                         {/* Фиксированная минимальная высота для содержимого */}
                         <NavigationMenuContent
-                            className={`${contentPadding} min-h-[350px]`}
+                            className={`${contentPadding} min-h-[350px] md:min-h-[250px]`}
                         >
                             <div className="flex gap-4 relative">
                                 <div className="relative shrink-0">

@@ -13,7 +13,7 @@ export const IntroductionHat = () => {
                     <img src={bgGridOneHat.src} alt="Баннер" className="" />
                 </div>
                 <div className="relative z-10 flex flex-col justify-center items-center flex-1">
-                    <p className="text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-[#101A9C] drop-shadow p-4 tracking-wider">
+                    <p className="text-4xl font-sign sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#101A9C] drop-shadow p-4 tracking-wider">
                         От прошлого к будущему верность закону
                     </p>
                 </div>
