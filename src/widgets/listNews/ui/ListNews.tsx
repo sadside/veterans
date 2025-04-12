@@ -47,7 +47,7 @@ export const ListNews: React.FC<ListNewsProps> = ({
             {paginatedNews.length === 0 && loading ? (
                 <LoadingSpinner size="w-16 h-16" />
             ) : (
-                paginatedNews.map(({ id, title, content, image, slug }) => (
+                paginatedNews.map(({ id, title, content, image }) => (
                     <p
                         key={id}
                         onClick={() => handleNewsClick(id)}
