@@ -7,25 +7,55 @@ import {
     NavigationMenuList,
     NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu'
-import LoadingSpinner from '@/shared/ui/loadingSpinner/LoadingSpinner'
 import { parseHtmlToReact } from '@/shared/lib/parse-html'
 import type { GroupType } from '@/shared/types/groupTypes'
 import type { CategoryType } from '@/shared/types/categoryTypes'
-import { loadCategoriesForGroup } from '@/shared/utils/loadCategoriesForGroup'
 
 type MenuLinksProps = {
     variant: 'tablet' | 'desktop'
     navbarData: GroupType[]
 }
 
+// Компонент для отображения изображения с эффектом блюра до загрузки
+const ImageWithBlur = ({
+    src,
+    alt,
+    className,
+}: {
+    src: string
+    alt: string
+    className: string
+}) => {
+    const [loading, setLoading] = useState(true)
+
+    return (
+        // Контейнер получает фиксированные размеры через переданный класс (например, w-[200px] h-[250px] или w-[240px] h-[330px])
+        <div className={`relative ${className}`}>
+            {loading && (
+                <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-200 z-20">
+                    {/* Можно добавить спиннер или placeholder */}
+                </div>
+            )}
+            <img
+                src={src}
+                alt={alt}
+                className={`absolute top-0 left-0 w-full h-full object-cover transition-all duration-150 ${loading ? 'filter blur-md' : ''}`}
+                onLoad={() => setLoading(false)}
+            />
+        </div>
+    )
+}
+
 export const MenuLinks = ({ variant, navbarData }: MenuLinksProps) => {
     const contentPadding = variant === 'tablet' ? 'p-2' : 'p-4'
+    // Фиксированные размеры изображения задаются здесь и передаются компоненту ImageWithBlur:
     const imgStyle =
         variant === 'tablet'
-            ? 'h-[250px] rounded-sm max-w-[200px]'
-            : 'h-[330px] rounded-sm max-w-[240px]'
+            ? 'w-[200px] h-[250px] rounded-sm'
+            : 'w-[240px] h-[330px] rounded-sm'
     const linksContainerWidth = variant === 'tablet' ? 'w-[250px]' : 'w-[330px]'
     const textSize = variant === 'tablet' ? 'text-[12px]' : 'text-[14px]'
+
     return (
         <NavigationMenu>
             <NavigationMenuList className="h-full flex items-center gap-2">
@@ -49,15 +79,18 @@ export const MenuLinks = ({ variant, navbarData }: MenuLinksProps) => {
                         >
                             {group.name}
                         </NavigationMenuTrigger>
-                        <NavigationMenuContent className={contentPadding}>
-                            <div className="flex gap-4">
+                        {/* Фиксированная минимальная высота для содержимого */}
+                        <NavigationMenuContent
+                            className={`${contentPadding} min-h-[350px]`}
+                        >
+                            <div className="flex gap-4 relative">
                                 <div className="relative shrink-0">
-                                    <img
+                                    <ImageWithBlur
                                         src={group.image}
-                                        className={imgStyle}
                                         alt={group.title}
+                                        className={imgStyle}
                                     />
-                                    <div className="absolute top-0 left-0 bg-black opacity-50 size-full z-10 p-4" />
+                                    <div className="absolute top-0 left-0 bg-black opacity-50 w-full h-full z-10" />
                                     <div className="absolute bottom-0 left-0 z-20 text-white px-2 pb-3">
                                         <h2 className="text-lg font-semibold mb-2">
                                             {group.title}
