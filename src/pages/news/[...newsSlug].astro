@@ -1,33 +1,150 @@
 ---
 export const prerender = false
-import { NewsContent } from '@/widgets/newsContent'
 import '../../styles/global.css'
 import '../../styles/marquee.css'
 import Layout from '@/layouts/Layout.astro'
-import { Breadcrumbs } from '@/shared/ui/breadcrumbs/breadcrumbs'
+import ServerBreadcrumbs from '@/shared/ui/breadcrumbs/ServerBreadcrumbs.astro'
+import { fetchNewsPage } from '@/shared/api/fetchNewsPage'
+import { Image } from 'astro:assets'
+
+// Получение ID новости из параметров запроса
+const newsId = Astro.url.searchParams.get('news_id')
+const parsedNewsId = newsId ? parseInt(newsId, 10) : null
+
+let newsData = null
+let error = null
+
+if (parsedNewsId) {
+    try {
+        newsData = await fetchNewsPage(parsedNewsId)
+    } catch (err) {
+        console.error('Ошибка при загрузке новости:', err)
+        error = 'Ошибка при загрузке новости'
+    }
+}
 ---
 
 <Layout>
-    <div class="container pt-[80px]">
-        <Breadcrumbs client:only />
+    <div class="container mx-auto px-4 pt-6 md:pt-24">
+        <ServerBreadcrumbs pathname={Astro.url.pathname} activeColor="#1570EF" />
     </div>
-    <main class="container pt-[20px]">
-        <NewsContent client:load />
+    
+    <main class="container mx-auto px-4 py-4">
+        
+        {newsData && (
+            <article >
+                <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                    {newsData.title}
+                </h1>
+                
+                {newsData.image && (
+                    <div class="my-6 rounded-lg overflow-hidden">
+                        <img 
+                            src={newsData.image} 
+                            alt={newsData.title} 
+                            width="800"
+                            height="400"
+                            class="w-full h-auto object-cover max-h-[400px]"
+                        />
+                    </div>
+                )}
+                
+                <div class="prose prose-lg max-w-none text-gray-700" set:html={newsData.content}></div>
+                
+                <div class="mt-4 pt-4 border-t border-gray-200">
+                    <a href="javascript:history.back()" class="inline-flex items-center text-[#1570EF] hover:underline">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                        </svg>
+                        Вернуться к списку
+                    </a>
+                </div>
+            </article>
+        )}
+        
+        {!error && !newsData && (
+            <div class="text-center py-12 text-gray-700">
+                Новость не найдена
+            </div>
+        )}
     </main>
 </Layout>
 
 <style>
     .container {
-        width: 100%; /* Теперь контейнер будет гибким */
-        margin: 0 auto;
-        max-width: 1200px; /* Ограничение ширины для больших экранов */
+        max-width: 1200px;
     }
-
-    /* Дополнительные стили для адаптивности */
+    
+    .prose {
+        --tw-prose-headings: #333;
+        --tw-prose-links: #1570EF;
+    }
+    
+    .prose h1, .prose h2, .prose h3, .prose h4 {
+        margin-top: 1.5em;
+        margin-bottom: 0.75em;
+        font-weight: 600;
+    }
+    
+    .prose p, .prose ul, .prose ol {
+        margin-bottom: 1.25em;
+    }
+    
+    .prose a {
+        text-decoration: underline;
+        text-underline-offset: 2px;
+    }
+    
+    .prose blockquote {
+        margin: 1.5rem 0;
+        padding: 1.25rem 1.5rem;
+        border-left: 4px solid #1570EF;
+        background-color: rgba(21, 112, 239, 0.05);
+        border-radius: 0.25rem;
+        font-style: italic;
+        color: #4B5563;
+        position: relative;
+    }
+    
+    .prose blockquote::before {
+        content: '"';
+        position: absolute;
+        top: -0.5rem;
+        left: 0.5rem;
+        font-size: 3rem;
+        color: rgba(21, 112, 239, 0.2);
+        font-family: Georgia, serif;
+        line-height: 1;
+    }
+    
+    .prose blockquote p {
+        position: relative;
+        z-index: 1;
+        margin-bottom: 0.5rem;
+    }
+    
+    .prose blockquote p:last-child {
+        margin-bottom: 0;
+    }
+    
+    .prose blockquote cite {
+        display: block;
+        font-style: normal;
+        font-weight: 500;
+        margin-top: 0.75rem;
+        font-size: 0.9em;
+        color: #1570EF;
+    }
+    
     @media (max-width: 640px) {
         .container {
             padding-left: 16px;
             padding-right: 16px;
+        }
+        
+        .prose blockquote {
+            padding: 1rem;
+            margin: 1.25rem 0;
         }
     }
 </style>

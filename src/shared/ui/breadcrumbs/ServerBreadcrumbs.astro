@@ -1,0 +1,52 @@
+---
+interface Breadcrumb {
+    href: string;
+    label: string;
+}
+
+interface Props {
+    pathname: string;
+    activeColor?: string;
+}
+
+const { pathname, activeColor = "#1570EF" } = Astro.props;
+
+const generateBreadcrumbs = (path: string): Breadcrumb[] => {
+    const pathSegments = path.split('/').filter(Boolean);
+    
+    const breadcrumbs: Breadcrumb[] = [];
+    const segments = pathSegments.slice(1);
+    
+    segments.forEach((segment, index) => {
+        const href = '/' + segments.slice(0, index + 1).join('/');
+        const label = decodeURIComponent(segment)
+            .replace(/-/g, ' ')
+            .replace(/\b\w/g, (c) => c.toUpperCase());
+        
+        breadcrumbs.push({ href, label });
+    });
+    
+    return breadcrumbs;
+};
+
+const breadcrumbs = generateBreadcrumbs(pathname);
+---
+
+<nav aria-label="breadcrumb">
+    <ul class="flex items-center space-x-2 text-sm">
+        <li>
+            <a href="/" class={`text-[${activeColor}] hover:underline`}>
+                Главная
+            </a>
+        </li>
+        
+        {breadcrumbs.map((crumb) => (
+            <>
+                <span>&gt;</span>
+                <li>
+                    <span class="text-gray-700 font-medium">{crumb.label}</span>
+                </li>
+            </>
+        ))}
+    </ul>
+</nav> 
