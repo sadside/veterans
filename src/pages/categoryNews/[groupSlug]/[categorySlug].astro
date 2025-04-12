@@ -3,17 +3,15 @@ export const prerender = false
 import { ListNews } from '@/widgets/listNews'
 import '../../../styles/global.css'
 import '../../../styles/marquee.css'
-import { ImportantNews } from '@/widgets/importantNews'
 import Layout from '@/layouts/Layout.astro'
-import { Breadcrumbs } from '@/shared/ui/breadcrumbs/breadcrumbs'
 import { fetchNewsByCategory } from '@/shared/api/fetchNewsByCategory'
-import type { NewsTypes } from '@/shared/types/newsTypes'
+import type { NewsTypes, NewsItem } from '@/shared/types/newsTypes'
+import ServerBreadcrumbs from '@/shared/ui/breadcrumbs/ServerBreadcrumbs.astro'
 
-const url = new URL(Astro.request.url) // Преобразуем строку в объект URL
+const url = new URL(Astro.request.url)
 const categoryId = url.searchParams.get('category_id')
 const groupId = url.searchParams.get('group_id')
 
-// Преобразуем параметры в числа, если они присутствуют, иначе используем null
 const parsedCategoryId = categoryId ? Number(categoryId) : null
 const parsedGroupId = groupId ? Number(groupId) : null
 
@@ -24,43 +22,108 @@ if (parsedCategoryId && parsedGroupId) {
         newsData = await fetchNewsByCategory({
             categoryId: parsedCategoryId,
             groupId: parsedGroupId,
-            page: 1, // Вы можете добавить логику для работы с пагинацией
-            pageSize: 5,
+            page: 1,
+            pageSize: 10, // Увеличиваем количество новостей для отображения
         })
     } catch (err) {
         console.error('Ошибка при загрузке новостей:', err)
         newsData = null
     }
 }
+
+// Проверяем структуру данных и получаем массив новостей
+const newsItems = newsData && newsData.results ? newsData.results : []
+
+// Разделяем новости: первая - для главной карточки, остальные - для списка
+const featuredNews = newsItems.length > 0 ? newsItems[0] : null;
+const otherNews = newsItems.length > 1 ? { 
+    categoryId: parsedCategoryId,
+    groupId: parsedGroupId,
+    results: newsItems.slice(1),
+    total_pages: newsData ? newsData.total_pages : 1
+} : null;
+
+// Функция для генерации URL новости
+const getNewsUrl = (newsId: number) => {
+    const pathSegments = url.pathname.split('/').filter(Boolean);
+    const slugPath = pathSegments.join('/');
+    return `/news/${slugPath}?news_id=${newsId}`;
+};
 ---
 
 <Layout>
-    <div class="container pt-[80px] pl-28">
-        <Breadcrumbs client:only />
-    </div>
-    <div class="container">
-        <ImportantNews client:load />
-    </div>
+    <div class="container mx-auto px-4 pt-6 md:pt-24">
+        <div class="mb-6">
+            <ServerBreadcrumbs pathname={Astro.url.pathname} activeColor="#1570EF" />
+        </div>
+        
+        {featuredNews && (
+            <a href={getNewsUrl(featuredNews.id)} class="block featured-news mb-8 rounded-lg overflow-hidden shadow-lg cursor-pointer">
+                <div class="relative">
+                    <img 
+                        src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1zwhySGCEBxRRFYIcQgvOLOpRGqrT3d7Qng&s"} 
+                        alt={featuredNews.title}
+                        class="w-full h-[200px] sm:h-[250px] md:h-[350px] object-cover"
+                    />
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#1570EF]/90 to-transparent p-4 md:p-6">
+                        <h2 class="text-white text-xl md:text-2xl lg:text-3xl font-bold">{featuredNews.title}</h2>
+                        <div class="hidden md:block text-white/90 mt-2 news-description" set:html={featuredNews.content}>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        )}
 
-    <div>
-        <ListNews
-            client:load
-            categoryId={categoryId}
-            groupId={groupId}
-            newsData={newsData}
-            client:only
-        />
+        <div class="news-list">
+            <h3 class="text-xl font-bold mb-6 text-[#1570EF] border-b-2 border-[#1570EF] pb-2">Последние новости</h3>
+            
+            {otherNews && (
+                <ListNews
+                    client:load
+                    categoryId={categoryId}
+                    groupId={groupId}
+                    newsData={otherNews}
+                    client:only
+                />
+            )}
+            
+            {!otherNews && !featuredNews && (
+                <div class="text-center py-8 text-gray-500">
+                    Новости не найдены
+                </div>
+            )}
+        </div>
     </div>
 </Layout>
 
 <style>
     .container {
-        width: 100%; /* Теперь контейнер будет гибким */
-        margin: 0 auto;
-        max-width: 1200px; /* Ограничение ширины для больших экранов */
+        max-width: 1200px;
     }
-
-    /* Дополнительные стили для адаптивности */
+    
+    .featured-news {
+        transition: transform 0.3s ease;
+    }
+    
+    .featured-news:hover {
+        transform: translateY(-5px);
+    }
+    
+    .news-list {
+        background-color: #f9fafb;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+    }
+    
+    .news-description {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-height: 4.5em;
+    }
+    
     @media (max-width: 640px) {
         .container {
             padding-left: 16px;

@@ -43,70 +43,93 @@ export const ListNews: React.FC<ListNewsProps> = ({
     }
 
     return (
-        <div className="w-full max-w-5xl mx-auto py-8 px-4">
+        <div className="w-full mx-auto py-4">
             {paginatedNews.length === 0 && loading ? (
-                <LoadingSpinner size="w-16 h-16" />
+                <div className="flex justify-center my-8">
+                    <LoadingSpinner size="w-12 h-12" />
+                </div>
             ) : (
-                paginatedNews.map(({ id, title, content, image, slug }) => (
-                    <p
-                        key={id}
-                        onClick={() => handleNewsClick(id)}
-                        className="flex flex-col sm:flex-row gap-6 mb-10 border-b pb-6 transition-colors duration-300 hover:bg-[#F3F4F6] cursor-pointer"
-                    >
-                        <div className="w-32 h-32 sm:w-40 sm:h-40 rounded overflow-hidden">
-                            <img
-                                src={image}
-                                alt={title}
-                                className="w-full h-full object-cover"
-                            />
-                        </div>
-                        <div className="flex-1">
-                            <h2 className="text-lg sm:text-xl font-semibold mb-2">
-                                <span className="no-underline">{title}</span>
-                            </h2>
-                            <p className="text-sm sm:text-base text-gray-700 leading-relaxed line-clamp-4">
-                                {parseHtmlToReact(content)}
-                            </p>
-                        </div>
-                    </p>
-                ))
+                <div className="grid gap-6">
+                    {paginatedNews.map(({ id, title, content, image }) => (
+                        <article
+                            key={id}
+                            onClick={() => handleNewsClick(id)}
+                            className="flex flex-col sm:flex-row gap-4 p-4 border-b border-gray-200 rounded-lg bg-white shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer"
+                        >
+                            <div className="sm:w-36 sm:h-36 rounded-lg overflow-hidden flex-shrink-0">
+                                <img
+                                    src={image}
+                                    alt={title}
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+                            <div className="flex-1">
+                                <h3 className="text-lg font-medium text-gray-900 mb-2 hover:text-[#1570EF]">
+                                    {title}
+                                </h3>
+                                <div className="text-sm text-gray-700 line-clamp-3">
+                                    {parseHtmlToReact(content)}
+                                </div>
+                                <div className="mt-2">
+                                    <span className="text-[#1570EF] text-sm font-medium inline-flex items-center">
+                                        Читать далее
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="h-4 w-4 ml-1"
+                                            viewBox="0 0 20 20"
+                                            fill="currentColor"
+                                        >
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                    </span>
+                                </div>
+                            </div>
+                        </article>
+                    ))}
+                </div>
             )}
 
             {/* Пагинация */}
-            <div className="flex justify-center flex-wrap gap-2 mt-6">
-                <button
-                    onClick={prevPage}
-                    disabled={currentPage === 1}
-                    className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
-                >
-                    Назад
-                </button>
-
-                {Array.from({ length: totalPages }, (_, i) => (
+            {totalPages > 1 && (
+                <div className="flex justify-center flex-wrap gap-2 mt-8">
                     <button
-                        key={i}
-                        onClick={() => setCurrentPage(i + 1)}
-                        className={`px-3 py-1 rounded ${
-                            currentPage === i + 1
-                                ? 'bg-blue-600 text-white'
-                                : 'bg-gray-200 hover:bg-gray-300'
-                        }`}
+                        onClick={prevPage}
+                        disabled={currentPage === 1}
+                        className="px-4 py-2 rounded text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        {i + 1}
+                        Назад
                     </button>
-                ))}
 
-                <button
-                    onClick={nextPage}
-                    disabled={
-                        currentPage === totalPages ||
-                        paginatedNews.length < PAGE_SIZE
-                    }
-                    className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
-                >
-                    Далее
-                </button>
-            </div>
+                    {Array.from({ length: totalPages }, (_, i) => (
+                        <button
+                            key={i}
+                            onClick={() => setCurrentPage(i + 1)}
+                            className={`px-4 py-2 rounded text-sm font-medium ${
+                                currentPage === i + 1
+                                    ? 'bg-[#1570EF] text-white'
+                                    : 'text-gray-700 bg-gray-100 hover:bg-gray-200'
+                            }`}
+                        >
+                            {i + 1}
+                        </button>
+                    ))}
+
+                    <button
+                        onClick={nextPage}
+                        disabled={
+                            currentPage === totalPages ||
+                            paginatedNews.length < PAGE_SIZE
+                        }
+                        className="px-4 py-2 rounded text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        Далее
+                    </button>
+                </div>
+            )}
         </div>
     )
 }
