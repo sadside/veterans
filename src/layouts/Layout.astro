@@ -1,6 +1,8 @@
 ---
 import { fetchGroupsWithCategories } from '@/shared/utils/loadGroupsWithCategories'
 import { Navbar } from '../widgets/navbar'
+import { Footer } from '../widgets/footer'
+
 const navbarData = await fetchGroupsWithCategories()
 ---
 
@@ -16,6 +18,7 @@ const navbarData = await fetchGroupsWithCategories()
     <body>
         <Navbar client:load navbarData={navbarData} />
         <slot />
+        <Footer client:visible />
     </body>
 </html>
 
