@@ -67,12 +67,20 @@ export const MenuLinks = ({ variant, navbarData }: MenuLinksProps) => {
                         Мемориалы
                     </a>
                 </NavigationMenuItem>
+                <NavigationMenuItem>
+                    <a
+                        href="/documents"
+                        className="text-[25px]  font-sign  hover:text-[#1570EF] transition-colors"
+                    >
+                        Документы
+                    </a>
+                </NavigationMenuItem>
                 {navbarData.map((group) => (
                     <NavigationMenuItem key={group.id}>
                         <NavigationMenuTrigger
                             className={`cursor-pointer  font-sign ${
                                 variant === 'tablet'
-                                    ? 'text-[14px]'
+                                    ? 'text-[25px]'
                                     : 'text-[25px]'
                             }`}
                             withArrow={true}

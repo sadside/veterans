@@ -54,8 +54,8 @@ export const MobileMobileMenu = ({
                             <li
                                 key={index}
                                 onClick={() => setSelectedGroup(index)}
-                                className={`border-b border-gray-200 p-3 text-[16px] cursor-pointer hover:bg-gray-100 
-                                ${selectedGroup === index ? 'font-semibold bg-gray-100' : ''}`}
+                                className={`border-b border-gray-200 p-3 text-[25px] cursor-pointer hover:bg-gray-100 font-sign
+                                 bg-gray-100`}
                             >
                                 {group.name}
                             </li>
@@ -79,7 +79,7 @@ export const MobileMobileMenu = ({
                             {/* Оборачиваем весь контент в ссылку */}
                             <a
                                 href={`/categoryNews?category_id=${navbarData[selectedGroup].id}&group_id=${navbarData[selectedGroup].id}`}
-                                className="block mb-4 relative"
+                                className="block mb-4 relative "
                             >
                                 {/* Контейнер для картинки с затемнением */}
                                 <div className="relative">

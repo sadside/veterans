@@ -9,11 +9,13 @@ import { Memory } from '../widgets/memory'
 import { Leisure } from '../widgets/our-leisure'
 import { Map } from '../widgets/Map/ui/ui'
 import { Managment } from '../widgets/managment'
+import { fetchVeteransBirthday } from '@/shared/api/fetchVeteransBirthday'
+const birthdayData = await fetchVeteransBirthday()
 ---
 
 <Layout>
     <div class="container pt-[80px]">
-        <Introduction client:load />
+        <Introduction client:load birthdayData={birthdayData} />
     </div>
 
     <div class="bg-[#F0F2F9]">

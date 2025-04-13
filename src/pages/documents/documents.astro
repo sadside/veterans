@@ -1,0 +1,23 @@
+---
+import Layout from '../../layouts/Layout.astro'
+import '../styles/global.css'
+import '../styles/marquee.css'
+---
+
+<Layout />
+
+<style>
+    .container {
+        width: 100%; /* Теперь контейнер будет гибким */
+        margin: 0 auto;
+        max-width: 1200px; /* Ограничение ширины для больших экранов */
+    }
+
+    /* Дополнительные стили для адаптивности */
+    @media (max-width: 640px) {
+        .container {
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+    }
+</style>

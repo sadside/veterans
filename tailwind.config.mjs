@@ -6,6 +6,7 @@ export default {
         extend: {
             fontFamily: {
                 sign: ['SignPainter'], // ← добавили шрифт
+                pacif: ['Pacifico'], // ← добавили шрифт
             },
             borderRadius: {
                 lg: 'var(--radius)',
