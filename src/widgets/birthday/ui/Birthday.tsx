@@ -1,33 +1,31 @@
 import type { BirthdayType } from '@/shared/types/birtdayTypes'
-import { BirthdayTablet } from './BirthdayTablet'
 import { useIsDevice } from '@/widgets/navbar/model/useIsDevice'
-import w from '../../../assets/images/w.png'
 import { BirthdayMobile } from './BirthdayMobile'
 import { BirthdayDesktop } from './BirthdayDesktop'
+import w from '../../../assets/images/w.png'
 
 type Props = {
     birthdayData: BirthdayType[]
 }
 
+const componentsMap = {
+    mobile: BirthdayMobile,
+    desktop: BirthdayDesktop,
+}
+
 export const Birthday = ({ birthdayData }: Props) => {
     const device = useIsDevice()
+    const Component = componentsMap[device] || BirthdayDesktop
 
-    const {
-        name = 'Иван',
-        surname = 'Иванов',
-        patronymic = 'Иванович',
-        image = w.src,
-    } = birthdayData[0] || {}
+    const { name, surname, patronymic, image } = birthdayData[0]
 
-    const birthdayInfo = { name, surname, patronymic, image }
-
-    if (device === 'mobile') {
-        return <BirthdayMobile {...birthdayInfo} />
-    }
-
-    if (device === 'tablet') {
-        return <BirthdayTablet {...birthdayInfo} />
-    }
-
-    return <BirthdayDesktop {...birthdayInfo} />
+    return (
+        <Component
+            name={name}
+            surname={surname}
+            patronymic={patronymic}
+            image={image}
+            device={device}
+        />
+    )
 }

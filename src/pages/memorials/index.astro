@@ -5,116 +5,137 @@ import axios from 'axios'
 import { baseURL } from '@/shared/config/apiConfig'
 import { MemorialCard } from '@/widgets/memorialCard'
 
-const url = Astro.url;
-const page = url.searchParams.get('page') ? Number(url.searchParams.get('page')) : 1;
-const pageSize = url.searchParams.get('page_size') ? Number(url.searchParams.get('page_size')) : 9;
+const url = Astro.url
+const page = url.searchParams.get('page')
+    ? Number(url.searchParams.get('page'))
+    : 1
+const pageSize = url.searchParams.get('page_size')
+    ? Number(url.searchParams.get('page_size'))
+    : 9
 
 // Данные для страницы
-let memorialsData = null;
-let error = null;
-let loading = true;
+let memorialsData = null
+let error = null
+let loading = true
 
 // Загрузка данных с сервера
 try {
     const response = await axios.get(`${baseURL}memorials/memorials/`, {
         params: {
             page,
-            page_size: pageSize
-        }
-    });
+            page_size: pageSize,
+        },
+    })
 
-    memorialsData = response.data;
-    loading = false;
+    memorialsData = response.data
+    loading = false
 } catch (err) {
-    console.error('Ошибка при загрузке памятных мест:', err);
-    error = 'Не удалось загрузить памятные места';
-    loading = false;
+    console.error('Ошибка при загрузке памятных мест:', err)
+    error = 'Не удалось загрузить памятные места'
+    loading = false
 }
 
-const totalItems = memorialsData?.count || 0;
-const totalPages = Math.ceil(totalItems / pageSize);
-const memorials = memorialsData?.results || [];
+const totalItems = memorialsData?.count || 0
+const totalPages = Math.ceil(totalItems / pageSize)
+const memorials = memorialsData?.results || []
 ---
 
 <Layout>
     <div class="bg-gradient-to-b from-gray-50 to-white min-h-screen">
         <div class="container mx-auto px-4 pt-6 md:pt-20">
             <div class="mt-8 text-center">
-                <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Памятные места</h1>
-                <p class="text-gray-600 max-w-2xl mx-auto">Исторические локации и мемориалы, хранящие память о значимых событиях и выдающихся личностях</p>
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+                    Памятные места
+                </h1>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Исторические локации и мемориалы, хранящие память о значимых
+                    событиях и выдающихся личностях
+                </p>
             </div>
-            
-            {loading && (
-                <div class="flex justify-center py-24">
-                    <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#1570EF]"></div>
-                </div>
-            )}
-            
-            {error && (
-                <div class="text-center text-red-500 py-24">
-                    <p class="text-xl">{error}</p>
-                    <button 
-                        class="mt-4 px-6 py-2 bg-[#1570EF] text-white rounded-md hover:bg-blue-600 transition-colors"
-                        onclick="window.location.reload()"
-                    >
-                        Попробовать снова
-                    </button>
-                </div>
-            )}
-            
-            {!loading && !error && memorials.length === 0 && (
-                <div class="text-center py-24">
-                    <p class="text-xl text-gray-700">Памятные места не найдены</p>
-                </div>
-            )}
-            
-            {!loading && !error && memorials.length > 0 && (
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12 mb-16">
-                    {memorials.map((memorial: any) => (
-                        <MemorialCard client:visible memorial={memorial} />
-                    ))}
-                </div>
-            )}
-            
-            {/* Пагинация */}
-            {totalPages > 1 && (
-                <div class="flex justify-center flex-wrap gap-2 mb-12">
-                    <a
-                        href={`${Astro.url.pathname}?page=${Math.max(page - 1, 1)}&page_size=${pageSize}`}
-                        class={`px-4 py-2 rounded text-sm font-medium ${
-                            page === 1 
-                            ? 'text-gray-400 bg-gray-100 pointer-events-none opacity-50' 
-                            : 'text-gray-700 bg-gray-100 hover:bg-gray-200'
-                        }`}
-                    >
-                        Назад
-                    </a>
 
-                    {Array.from({ length: totalPages }, (_, i) => (
+            {
+                loading && (
+                    <div class="flex justify-center py-24">
+                        <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#1570EF]" />
+                    </div>
+                )
+            }
+
+            {
+                error && (
+                    <div class="text-center text-red-500 py-24">
+                        <p class="text-xl">{error}</p>
+                        <button
+                            class="mt-4 px-6 py-2 bg-[#1570EF] text-white rounded-md hover:bg-blue-600 transition-colors"
+                            onclick="window.location.reload()"
+                        >
+                            Попробовать снова
+                        </button>
+                    </div>
+                )
+            }
+
+            {
+                !loading && !error && memorials.length === 0 && (
+                    <div class="text-center py-24">
+                        <p class="text-xl text-gray-700">
+                            Памятные места не найдены
+                        </p>
+                    </div>
+                )
+            }
+
+            {
+                !loading && !error && memorials.length > 0 && (
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12 mb-16">
+                        {memorials.map((memorial: any) => (
+                            <MemorialCard client:visible memorial={memorial} />
+                        ))}
+                    </div>
+                )
+            }
+
+            {/* Пагинация */}
+            {
+                totalPages > 1 && (
+                    <div class="flex justify-center flex-wrap gap-2 mb-12">
                         <a
-                            href={`${Astro.url.pathname}?page=${i + 1}&page_size=${pageSize}`}
+                            href={`${Astro.url.pathname}?page=${Math.max(page - 1, 1)}&page_size=${pageSize}`}
                             class={`px-4 py-2 rounded text-sm font-medium ${
-                                page === i + 1
-                                    ? 'bg-[#1570EF] text-white'
+                                page === 1
+                                    ? 'text-gray-400 bg-gray-100 pointer-events-none opacity-50'
                                     : 'text-gray-700 bg-gray-100 hover:bg-gray-200'
                             }`}
                         >
-                            {i + 1}
+                            Назад
                         </a>
-                    ))}
 
-                    <a
-                        href={`${Astro.url.pathname}?page=${Math.min(page + 1, totalPages)}&page_size=${pageSize}`}
-                        class={`px-4 py-2 rounded text-sm font-medium ${
-                            page === totalPages 
-                            ? 'text-gray-400 bg-gray-100 pointer-events-none opacity-50' 
-                            : 'text-gray-700 bg-gray-100 hover:bg-gray-200'
-                        }`}
-                    >
-                        Далее
-                    </a>
-                </div>
-            )}
+                        {Array.from({ length: totalPages }, (_, i) => (
+                            <a
+                                href={`${Astro.url.pathname}?page=${i + 1}&page_size=${pageSize}`}
+                                class={`px-4 py-2 rounded text-sm font-medium ${
+                                    page === i + 1
+                                        ? 'bg-[#1570EF] text-white'
+                                        : 'text-gray-700 bg-gray-100 hover:bg-gray-200'
+                                }`}
+                            >
+                                {i + 1}
+                            </a>
+                        ))}
+
+                        <a
+                            href={`${Astro.url.pathname}?page=${Math.min(page + 1, totalPages)}&page_size=${pageSize}`}
+                            class={`px-4 py-2 rounded text-sm font-medium ${
+                                page === totalPages
+                                    ? 'text-gray-400 bg-gray-100 pointer-events-none opacity-50'
+                                    : 'text-gray-700 bg-gray-100 hover:bg-gray-200'
+                            }`}
+                        >
+                            Далее
+                        </a>
+                    </div>
+                )
+            }
         </div>
     </div>
 </Layout>
@@ -126,7 +147,7 @@ const memorials = memorialsData?.results || [];
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
-    
+
     .line-clamp-3 {
         display: -webkit-box;
         -webkit-line-clamp: 3;
@@ -134,11 +155,11 @@ const memorials = memorialsData?.results || [];
         overflow: hidden;
         min-height: 4.5rem;
     }
-    
+
     a {
         text-decoration: none !important;
     }
-    
+
     a:hover {
         text-decoration: none !important;
     }

@@ -11,7 +11,10 @@ export const Introduction = ({ birthdayData }: Props) => {
     return (
         <>
             <IntroductionHat />
-            <Birthday birthdayData={birthdayData} />
+            {birthdayData.length !== 0 && (
+                <Birthday birthdayData={birthdayData} />
+            )}
+
             <GradientBox className="h-[2px] w-full mb-[80px] mt-10" />
 
             <div className="rounded-lg overflow-hidden mb-[80px] ">
