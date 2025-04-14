@@ -47,15 +47,26 @@ export const MobileMobileMenu = ({
             className="fixed top-[60px] left-0 w-full h-[calc(100vh-60px)] bg-white shadow-lg z-[9999] flex flex-col lg:hidden overflow-hidden"
         >
             <div className="flex flex-1 overflow-hidden">
-                {/* Левая колонка – список групп */}
-                <div className="w-1/3 border-r border-gray-200 overflow-y-auto">
+                <div className="w-1/3 border-r border-gray-200 overflow-y-auto flex flex-col">
+                    <a
+                        href="/memorials"
+                        className="text-[25px] font-sign hover:text-[#1570EF] transition-colors p-3 border-b border-gray-200"
+                    >
+                        Мемориалы
+                    </a>
+                    <a
+                        href="/documents"
+                        className="text-[25px] font-sign hover:text-[#1570EF] transition-colors p-3 border-b border-gray-200"
+                    >
+                        Документы
+                    </a>
+
                     <ul className="flex flex-col">
                         {navbarData.map((group, index) => (
                             <li
                                 key={index}
                                 onClick={() => setSelectedGroup(index)}
-                                className={`border-b border-gray-200 p-3 text-[25px] cursor-pointer hover:bg-gray-100 font-sign
-                                 bg-gray-100`}
+                                className="border-b border-gray-200 p-3 text-[25px] cursor-pointer hover:bg-gray-100 font-sign"
                             >
                                 {group.name}
                             </li>

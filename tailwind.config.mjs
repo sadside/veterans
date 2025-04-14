@@ -7,6 +7,7 @@ export default {
             fontFamily: {
                 sign: ['SignPainter'], // ← добавили шрифт
                 pacif: ['Pacifico'], // ← добавили шрифт
+                montserrat: ['Montserrat', 'sans-serif'],
             },
             borderRadius: {
                 lg: 'var(--radius)',

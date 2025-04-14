@@ -7,10 +7,10 @@ import { News } from '../widgets/news'
 import Marquee from '../shared/ui/marquee/ui/ui'
 import { Memory } from '../widgets/memory'
 import { Leisure } from '../widgets/our-leisure'
-import { Map } from '../widgets/Map/ui/ui'
 import { Managment } from '../widgets/managment'
 import { fetchVeteransBirthday } from '@/shared/api/fetchVeteransBirthday'
 import { fetchMemorials } from '@/shared/api/fetchMemorials'
+import { MemorialsOverview } from '@/widgets/MemorialsOverview'
 const birthdayData = await fetchVeteransBirthday()
 const memorialsData = await fetchMemorials()
 ---
@@ -38,7 +38,7 @@ const memorialsData = await fetchMemorials()
         </div>
 
         <div class="container px-4 sm:px-8 md:px-12">
-            <Map client:visible memorialsData={memorialsData} />
+            <MemorialsOverview client:visible memorialsData={memorialsData} />
         </div>
     </div>
 </Layout>
