@@ -11,4 +11,15 @@ export default defineConfig({
     integrations: [react(), tailwind({ applyBaseStyles: false })],
     output: 'server',
     adapter: vercel(),
+    image: {
+        domains: ['81.31.247.179'],
+        remotePatterns: [
+            {
+                protocol: 'http',
+                hostname: '81.31.247.179',
+                port: '',
+                pathname: '/**',
+            },
+        ],
+    },
 })

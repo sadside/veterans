@@ -21,6 +21,8 @@ const getNewsUrl = (newsId: number) => {
     const slugPath = pathSegments.join('/');
     return `/news/${slugPath}?news_id=${newsId}`;
 };
+
+import { Image } from 'astro:assets';
 ---
 
 <div class="w-full mx-auto py-4">
@@ -37,9 +39,11 @@ const getNewsUrl = (newsId: number) => {
                 >
                     <div class="sm:w-36 sm:h-36 rounded-lg overflow-hidden flex-shrink-0">
                         {item.image ? (
-                            <img
+                            <Image
                                 src={item.image}
                                 alt={item.title}
+                                width={144}
+                                height={144}
                                 loading="lazy"
                                 class="w-full h-full object-cover"
                             />

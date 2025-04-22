@@ -39,11 +39,11 @@ if (parsedNewsId) {
                 
                 {newsData.image && (
                     <div class="my-6 rounded-lg overflow-hidden">
-                        <img 
+                        <Image 
                             src={newsData.image} 
                             alt={newsData.title} 
-                            width="800"
-                            height="400"
+                            width={800}
+                            height={400}
                             class="w-full h-auto object-cover max-h-[400px]"
                         />
                     </div>
