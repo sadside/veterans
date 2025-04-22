@@ -68,7 +68,9 @@ export const MemorialCard: React.FC<MemorialCardProps> = ({ memorial }) => {
                 <div
                     className="text-gray-600 line-clamp-3 mb-4"
                     dangerouslySetInnerHTML={{
-                        __html: memorial.description || 'Описание отсутствует',
+                        __html: removeImagesFromHtml(
+                            memorial.description || 'Описание отсутствует'
+                        ),
                     }}
                 />
 
@@ -124,4 +126,9 @@ export const MemorialCard: React.FC<MemorialCardProps> = ({ memorial }) => {
             </div>
         </div>
     )
+}
+
+function removeImagesFromHtml(html: string | null | undefined): string {
+    if (!html) return ''
+    return html.replace(/<img[^>]*>/g, '')
 }
