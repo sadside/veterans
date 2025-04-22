@@ -21,5 +21,11 @@ export default defineConfig({
                 pathname: '/**',
             },
         ],
+        service: {
+            entrypoint: 'astro/assets/services/sharp',
+            config: {
+                allowCorsImageOriginList: ['http://81.31.247.179'],
+            },
+        },
     },
 })

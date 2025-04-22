@@ -5,7 +5,7 @@ import '../../styles/marquee.css'
 import Layout from '@/layouts/Layout.astro'
 import ServerBreadcrumbs from '@/shared/ui/breadcrumbs/ServerBreadcrumbs.astro'
 import { fetchNewsPage } from '@/shared/api/fetchNewsPage'
-import { Image } from 'astro:assets'
+import { getImageUrl } from '@/shared/config/apiConfig'
 
 // Получение ID новости из параметров запроса
 const newsId = Astro.url.searchParams.get('news_id')
@@ -39,11 +39,11 @@ if (parsedNewsId) {
                 
                 {newsData.image && (
                     <div class="my-6 rounded-lg overflow-hidden">
-                        <Image 
-                            src={newsData.image} 
+                        <img 
+                            src={getImageUrl(newsData.image)} 
                             alt={newsData.title} 
-                            width={800}
-                            height={400}
+                            width="800"
+                            height="400"
                             class="w-full h-auto object-cover max-h-[400px]"
                         />
                     </div>

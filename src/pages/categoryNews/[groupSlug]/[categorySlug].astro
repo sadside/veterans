@@ -5,8 +5,10 @@ import '../../../styles/marquee.css'
 import Layout from '@/layouts/Layout.astro'
 import { fetchNewsByCategory } from '@/shared/api/fetchNewsByCategory'
 import ServerBreadcrumbs from '@/shared/ui/breadcrumbs/ServerBreadcrumbs.astro'
-import { Image } from 'astro:assets'
+// import { Image } from 'astro:assets'
 import NewList from '@/widgets/new-list/NewList.astro'
+import { getImageUrl } from '@/shared/config/apiConfig'
+
 const url = new URL(Astro.request.url)
 const categoryId = url.searchParams.get('category_id')
 const groupId = url.searchParams.get('group_id')
@@ -54,12 +56,11 @@ const getNewsUrl = (newsId: number) => {
             <a href={getNewsUrl(featuredNews.id)} class="block featured-news mb-8 rounded-lg overflow-hidden shadow-lg cursor-pointer">
                 <div class="relative">
                     {featuredNews.image ? (
-                        <Image 
-                            src={featuredNews.image} 
+                        <img 
+                            src={getImageUrl(featuredNews.image)} 
                             alt={featuredNews.title}
-                            width={800}
-                            height={450}
-                            quality={100}
+                            width="800"
+                            height="450"
                             loading="lazy"
                             class="w-full h-[200px] sm:h-[250px] md:h-[350px] object-cover"
                         />
