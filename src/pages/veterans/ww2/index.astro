@@ -1,0 +1,207 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import '../../../styles/global.css';
+import { VeteransSearch } from '@/features/veterans/VeteransSearch';
+import { VeteransList } from '@/widgets/veterans/ui/VeteransList';
+import { fetchVeterans } from '@/shared/api/fetchVeterans';
+
+// Получение параметров из URL
+const url = new URL(Astro.request.url);
+const page = url.searchParams.get('page') ? Number(url.searchParams.get('page')) : 1;
+const search = url.searchParams.get('search') || '';
+
+// Получаем параметр is_vov_veteran из URL или устанавливаем по умолчанию для страницы ВОВ
+const is_vov_veteran_param = url.searchParams.get('is_vov_veteran');
+const is_vov_veteran = is_vov_veteran_param === null ? true : is_vov_veteran_param === 'true';
+
+// Серверный запрос данных
+const veteransData = await fetchVeterans({
+    page,
+    page_size: 12,
+    search,
+    is_vov_veteran,
+});
+
+// Расчёт общего количества страниц
+const totalPages = Math.ceil(veteransData.count / 12);
+
+// Базовый URL для пагинации
+const baseUrl = url.pathname;
+---
+
+<Layout>
+    <div class="container mx-auto px-4 py-8">
+        <!-- Заголовок страницы -->
+        <div class="flex items-center mb-8">
+            <div class="text-blue-600 mr-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-award">
+                    <circle cx="12" cy="8" r="6"></circle>
+                    <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path>
+                </svg>
+            </div>
+            <h1 class="text-3xl font-bold">Ветераны Великой Отечественной войны</h1>
+        </div>
+        
+        <!-- Блок поиска и фильтрации -->
+        <VeteransSearch 
+            client:load
+            initialSearch={search}
+            onSearch={(query) => {
+                const searchParams = new URLSearchParams(window.location.search);
+                if (query) {
+                    searchParams.set('search', query);
+                } else {
+                    searchParams.delete('search');
+                }
+                searchParams.set('page', '1');
+                window.location.search = searchParams.toString();
+            }}
+            onFilterChange={(isVovVeteran) => {
+                const searchParams = new URLSearchParams(window.location.search);
+                
+                // Обновляем параметр фильтра в URL
+                if (isVovVeteran === undefined) {
+                    searchParams.delete('is_vov_veteran');
+                } else {
+                    searchParams.set('is_vov_veteran', isVovVeteran.toString());
+                }
+                
+                searchParams.set('page', '1');
+                window.location.search = searchParams.toString();
+            }}
+            currentFilter={is_vov_veteran}
+            isWwPage={true}
+        />
+        
+        <!-- Информация о количестве найденных ветеранов -->
+        <div class="my-6 flex items-center text-gray-600">
+            <div class="mr-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+            </div>
+            <span>Найдено: {veteransData.count} ветеранов</span>
+        </div>
+        
+        <!-- Список ветеранов -->
+        <VeteransList 
+            client:load
+            veterans={veteransData.results}
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={(newPage) => {
+                // Создаём прямые URL для пагинации
+                let newUrl = new URL(window.location.href);
+                newUrl.searchParams.set('page', newPage.toString());
+                window.location.href = newUrl.toString();
+            }}
+            isLoading={false}
+        />
+    </div>
+</Layout>
+
+<style>
+/* Добавляем базовые стили Tailwind, если нужно */
+.container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (min-width: 640px) {
+    .container {
+        max-width: 640px;
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 768px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .container {
+        max-width: 1024px;
+    }
+}
+
+@media (min-width: 1280px) {
+    .container {
+        max-width: 1280px;
+    }
+}
+</style>
+
+<script>
+// Добавляем прямые обработчики для кнопок пагинации
+document.addEventListener('DOMContentLoaded', () => {
+    // Сначала добавляем data-page атрибуты для кнопок с номерами страниц
+    document.querySelectorAll('.pagination button').forEach(button => {
+        const text = button.textContent?.trim();
+        if (text && !isNaN(Number(text))) {
+            button.setAttribute('data-page', text);
+        }
+    });
+    
+    // Находим все кнопки пагинации
+    const paginationButtons = document.querySelectorAll('[aria-label^="Страница"], [aria-label="Предыдущая страница"], [aria-label="Следующая страница"]');
+    
+    // Добавляем обработчики событий
+    paginationButtons.forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            
+            // Используем типизированный элемент вместо this
+            const buttonElement = event.currentTarget as HTMLButtonElement;
+            
+            // Получаем номер страницы из атрибута или текста кнопки
+            let page: string | null = buttonElement.getAttribute('data-page');
+            
+            // Если data-page не найден, но это кнопка с номером страницы
+            if (!page && buttonElement.getAttribute('aria-label')?.startsWith('Страница')) {
+                // Получаем номер страницы из текста кнопки
+                const buttonText = buttonElement.textContent?.trim();
+                if (buttonText && !isNaN(Number(buttonText))) {
+                    page = buttonText;
+                } else {
+                    // Если текст кнопки не найден или это не число, попробуем извлечь из aria-label
+                    const ariaLabel = buttonElement.getAttribute('aria-label');
+                    if (ariaLabel) {
+                        const match = ariaLabel.match(/Страница\s+(\d+)/);
+                        if (match && match[1]) {
+                            page = match[1];
+                        }
+                    }
+                }
+            }
+            
+            if (!page) {
+                // Для кнопок "Предыдущая" и "Следующая"
+                const currentPage = parseInt(new URLSearchParams(window.location.search).get('page') || '1');
+                if (buttonElement.getAttribute('aria-label') === 'Предыдущая страница') {
+                    page = Math.max(currentPage - 1, 1).toString();
+                } else if (buttonElement.getAttribute('aria-label') === 'Следующая страница') {
+                    page = (currentPage + 1).toString();
+                }
+            }
+            
+            if (page) {
+                // Обновляем URL и перезагружаем страницу
+                const url = new URL(window.location.href);
+                url.searchParams.set('page', page);
+                window.location.href = url.toString();
+            }
+        });
+    });
+    
+    // Также добавим прямое логирование для отладки
+    console.log('Кнопки пагинации:', document.querySelectorAll('.pagination button').length);
+    document.querySelectorAll('.pagination button').forEach(button => {
+        console.log('Кнопка:', button.textContent, 'data-page:', button.getAttribute('data-page'));
+    });
+});
+</script> 
