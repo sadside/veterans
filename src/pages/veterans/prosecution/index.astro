@@ -30,7 +30,7 @@ const baseUrl = url.pathname;
 ---
 
 <Layout>
-    <div class="container mx-auto px-4 py-8">
+    <div class="page-container py-8">
         <!-- Заголовок страницы -->
         <div class="flex items-center mb-8">
             <div class="text-blue-600 mr-3">
@@ -81,36 +81,7 @@ const baseUrl = url.pathname;
 </Layout>
 
 <style>
-/* Добавляем базовые стили Tailwind, если нужно */
-.container {
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-@media (min-width: 640px) {
-    .container {
-        max-width: 640px;
-    }
-}
-
-@media (min-width: 768px) {
-    .container {
-        max-width: 768px;
-    }
-}
-
-@media (min-width: 1024px) {
-    .container {
-        max-width: 1024px;
-    }
-}
-
-@media (min-width: 1280px) {
-    .container {
-        max-width: 1280px;
-    }
-}
+/* Стили удалены, поскольку теперь используется page-container из global.css */
 </style>
 
 <script>

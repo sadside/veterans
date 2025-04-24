@@ -10,51 +10,42 @@ import { Leisure } from '../widgets/our-leisure'
 import { Managment } from '../widgets/managment'
 import { fetchVeteransBirthday } from '@/shared/api/fetchVeteransBirthday'
 import { fetchMemorials } from '@/shared/api/fetchMemorials'
+import { fetchNewsFeed } from '@/shared/api/fetchNewsFeed'
 import { MemorialsOverview } from '@/widgets/MemorialsOverview'
+
 const birthdayData = await fetchVeteransBirthday()
 const memorialsData = await fetchMemorials()
+const newsData = await fetchNewsFeed()
 ---
 
 <Layout>
-    <div class="container pt-[80px]">
+    <div class="page-container">
         <Introduction client:load birthdayData={birthdayData} />
     </div>
 
     <div class="bg-[#F0F2F9]">
-        <div class="container py-[100px] px-4 sm:px-8 md:px-12">
-            <News client:load />
+        <div class="page-container py-[100px]">
+            <News client:load newsData={newsData} />
         </div>
         <Marquee speed={200} />
         <div class="bg-white mt-[100px] py-14">
-            <div class="container px-4 sm:px-8 md:px-12">
+            <div class="page-container">
                 <Managment client:visible />
             </div>
         </div>
-        <div class="container py-[100px] px-4 sm:px-8 md:px-12">
+        <div class="page-container py-[100px]">
             <Memory client:visible />
         </div>
-        <div class="container py-[30px] px-4 sm:px-8 md:px-12">
+        <div class="page-container py-[30px]">
             <Leisure client:visible />
         </div>
 
-        <div class="container px-4 sm:px-8 md:px-12">
+        <div class="page-container">
             <MemorialsOverview client:visible memorialsData={memorialsData} />
         </div>
     </div>
 </Layout>
 
 <style>
-    .container {
-        width: 100%; /* Теперь контейнер будет гибким */
-        margin: 0 auto;
-        max-width: 1200px; /* Ограничение ширины для больших экранов */
-    }
-
-    /* Дополнительные стили для адаптивности */
-    @media (max-width: 640px) {
-        .container {
-            padding-left: 16px;
-            padding-right: 16px;
-        }
-    }
+    /* Удалены локальные стили контейнера, так как они теперь в global.css */
 </style>
