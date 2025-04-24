@@ -16,9 +16,13 @@ const navbarData = await fetchGroupsWithCategories()
         <title>Astro Basics</title>
     </head>
     <body>
-        <Navbar client:load navbarData={navbarData} />
-        <slot />
-        <Footer client:visible />
+        <div class="size-full flex flex-col min-h-screen">
+            <Navbar client:load navbarData={navbarData} />
+            <main class="flex-1 w-full mb-8 pt-20">
+                <slot />
+            </main>
+            <Footer client:visible />
+        </div>
     </body>
 </html>
 

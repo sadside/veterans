@@ -100,7 +100,7 @@ const getFileIcon = (type: string) => {
 ---
 
 <Layout>
-    <main class="container mx-auto px-4 py-8">
+    <main class="page-container py-8">
         <header class="mb-12 text-center">
             <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Документы и материалы</h1>
             <p class="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -147,17 +147,5 @@ const getFileIcon = (type: string) => {
 </Layout>
 
 <style>
-    .container {
-        width: 100%; /* Теперь контейнер будет гибким */
-        margin: 0 auto;
-        max-width: 1200px; /* Ограничение ширины для больших экранов */
-    }
-
-    /* Дополнительные стили для адаптивности */
-    @media (max-width: 640px) {
-        .container {
-            padding-left: 16px;
-            padding-right: 16px;
-        }
-    }
+    /* Удаляем лишние стили, так как они теперь в global.css */
 </style>
