@@ -2,26 +2,18 @@ import React, { useState } from 'react'
 import { Search, Filter, X } from 'lucide-react'
 
 interface VeteransSearchProps {
-    onSearch: (query: string) => void
-    onFilterChange: (isVovVeteran: boolean | undefined) => void
     currentFilter: boolean | undefined
     isWwPage?: boolean
     initialSearch?: string
 }
 
 export const VeteransSearch: React.FC<VeteransSearchProps> = ({
-    onFilterChange,
     currentFilter,
     isWwPage = false,
     initialSearch = '',
 }) => {
     const [searchQuery, setSearchQuery] = useState(initialSearch)
     const [showFilters, setShowFilters] = useState(false)
-
-    const handleResetSearch = () => {
-        setSearchQuery('')
-        window.location.href = window.location.pathname
-    }
 
     return (
         <div className="bg-white rounded-lg shadow-md p-4 md:p-6">
@@ -33,7 +25,7 @@ export const VeteransSearch: React.FC<VeteransSearchProps> = ({
 
             <form
                 method="GET"
-                action={window.location.pathname}
+                action=""
                 className="flex flex-col sm:flex-row gap-3"
             >
                 <div className="relative flex-1">
@@ -43,19 +35,17 @@ export const VeteransSearch: React.FC<VeteransSearchProps> = ({
                     <input
                         type="search"
                         name="search"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
+                        defaultValue={initialSearch}
                         className="block w-full p-3 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500"
                         placeholder="Поиск по имени, фамилии..."
                     />
-                    {searchQuery && (
-                        <button
-                            type="button"
-                            onClick={handleResetSearch}
+                    {initialSearch && (
+                        <a
+                            href="?"
                             className="absolute inset-y-0 end-0 flex items-center pe-3"
                         >
                             <X className="w-4 h-4 text-gray-500 hover:text-gray-700" />
-                        </button>
+                        </a>
                     )}
                 </div>
 
@@ -95,14 +85,7 @@ export const VeteransSearch: React.FC<VeteransSearchProps> = ({
                     <h3 className="text-sm font-medium mb-3">Категория</h3>
                     <div className="flex flex-wrap gap-3">
                         <a
-                            href={`${window.location.pathname}?${new URLSearchParams(
-                                {
-                                    ...(searchQuery
-                                        ? { search: searchQuery }
-                                        : {}),
-                                    page: '1',
-                                }
-                            ).toString()}`}
+                            href="?"
                             className={`px-3 py-1.5 text-sm rounded-full transition-colors 
                                 ${currentFilter === undefined ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-100'}`}
                         >
@@ -111,15 +94,7 @@ export const VeteransSearch: React.FC<VeteransSearchProps> = ({
 
                         {isWwPage ? (
                             <a
-                                href={`${window.location.pathname}?${new URLSearchParams(
-                                    {
-                                        ...(searchQuery
-                                            ? { search: searchQuery }
-                                            : {}),
-                                        is_vov_veteran: 'true',
-                                        page: '1',
-                                    }
-                                ).toString()}`}
+                                href={`?is_vov_veteran=true&page=1${initialSearch ? `&search=${encodeURIComponent(initialSearch)}` : ''}`}
                                 className={`px-3 py-1.5 text-sm rounded-full transition-colors 
                                     ${currentFilter === true ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-100'}`}
                             >
@@ -127,15 +102,7 @@ export const VeteransSearch: React.FC<VeteransSearchProps> = ({
                             </a>
                         ) : (
                             <a
-                                href={`${window.location.pathname}?${new URLSearchParams(
-                                    {
-                                        ...(searchQuery
-                                            ? { search: searchQuery }
-                                            : {}),
-                                        is_vov_veteran: 'false',
-                                        page: '1',
-                                    }
-                                ).toString()}`}
+                                href={`?is_vov_veteran=false&page=1${initialSearch ? `&search=${encodeURIComponent(initialSearch)}` : ''}`}
                                 className={`px-3 py-1.5 text-sm rounded-full transition-colors 
                                     ${currentFilter === false ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-100'}`}
                             >
