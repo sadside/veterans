@@ -46,29 +46,6 @@ const baseUrl = url.pathname;
         <VeteransSearch 
             client:load
             initialSearch={search}
-            onSearch={(query) => {
-                const searchParams = new URLSearchParams(window.location.search);
-                if (query) {
-                    searchParams.set('search', query);
-                } else {
-                    searchParams.delete('search');
-                }
-                searchParams.set('page', '1');
-                window.location.search = searchParams.toString();
-            }}
-            onFilterChange={(isVovVeteran) => {
-                const searchParams = new URLSearchParams(window.location.search);
-                
-                // Обновляем параметр фильтра в URL
-                if (isVovVeteran === undefined) {
-                    searchParams.delete('is_vov_veteran');
-                } else {
-                    searchParams.set('is_vov_veteran', isVovVeteran.toString());
-                }
-                
-                searchParams.set('page', '1');
-                window.location.search = searchParams.toString();
-            }}
             currentFilter={is_vov_veteran}
             isWwPage={true}
         />
