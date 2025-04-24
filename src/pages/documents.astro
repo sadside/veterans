@@ -2,9 +2,150 @@
 import Layout from '@/layouts/Layout.astro'
 import '../styles/global.css'
 import '../styles/marquee.css'
+
+// Мокап данных для документов
+const documentSections = [
+    {
+        id: "normative",
+        title: "Нормативные документы",
+        description: "Основные документы, регламентирующие работу с ветеранами",
+        documents: [
+            {
+                id: "doc-1",
+                title: "Положение о предоставлении льгот ветеранам",
+                type: "pdf",
+                size: "2.4 МБ",
+                date: "15.03.2023"
+            },
+            {
+                id: "doc-2",
+                title: "Регламент оказания медицинской помощи ветеранам",
+                type: "docx",
+                size: "1.8 МБ",
+                date: "02.11.2022"
+            },
+            {
+                id: "doc-3",
+                title: "Приказ о социальной поддержке ветеранов",
+                type: "pdf",
+                size: "3.1 МБ",
+                date: "10.05.2023"
+            }
+        ]
+    },
+    {
+        id: "methodical",
+        title: "Методические материалы",
+        description: "Документы для информационной поддержки",
+        documents: [
+            {
+                id: "doc-4",
+                title: "Порядок оформления документов для получения льгот",
+                type: "docx",
+                size: "1.2 МБ",
+                date: "23.07.2023"
+            },
+            {
+                id: "doc-5",
+                title: "Список необходимых документов для ветеранов ВОВ",
+                type: "xlsx",
+                size: "0.8 МБ",
+                date: "05.04.2023"
+            }
+        ]
+    },
+    {
+        id: "reports",
+        title: "Отчеты и статистика",
+        description: "Аналитические материалы и отчеты по работе с ветеранами",
+        documents: [
+            {
+                id: "doc-6",
+                title: "Отчет о проведенных мероприятиях для ветеранов в 2023 году",
+                type: "xlsx",
+                size: "4.2 МБ",
+                date: "30.01.2024"
+            },
+            {
+                id: "doc-7",
+                title: "Статистика по категориям ветеранов",
+                type: "xlsx",
+                size: "1.5 МБ",
+                date: "15.12.2023"
+            },
+            {
+                id: "doc-8",
+                title: "Анализ обращений ветеранов за 2023 год",
+                type: "pdf",
+                size: "5.7 МБ",
+                date: "10.02.2024"
+            }
+        ]
+    }
+];
+
+// Функция для получения иконки в зависимости от типа файла
+const getFileIcon = (type: string) => {
+    switch(type) {
+        case 'pdf':
+            return `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-600"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M9 15v-4h6v4"/><path d="M9 15h6"/><path d="M9 13h6"/></svg>`;
+        case 'docx':
+            return `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M10 13a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1z"/></svg>`;
+        case 'xlsx':
+            return `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><rect x="8" y="12" width="8" height="6" rx="1"/><path d="M8 12v-2a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/></svg>`;
+        default:
+            return `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-600"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>`;
+    }
+};
 ---
 
-<Layout />
+<Layout>
+    <main class="container mx-auto px-4 py-8">
+        <header class="mb-12 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Документы и материалы</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                Здесь вы можете найти и скачать важные документы, методические материалы и отчеты, 
+                связанные с поддержкой и помощью ветеранам.
+            </p>
+        </header>
+
+        <div class="space-y-12">
+            {documentSections.map(section => (
+                <section id={section.id} class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-2">{section.title}</h2>
+                    <p class="text-gray-600 mb-6">{section.description}</p>
+                    
+                    <div class="divide-y divide-gray-200">
+                        {section.documents.map(doc => (
+                            <div class="py-4 flex items-center justify-between flex-wrap gap-4">
+                                <div class="flex items-center space-x-3 flex-1 min-w-0">
+                                    <div class="flex-shrink-0" set:html={getFileIcon(doc.type)} />
+                                    <div class="flex-1 min-w-0">
+                                        <h3 class="text-lg font-medium text-gray-900 truncate">{doc.title}</h3>
+                                        <div class="flex flex-wrap text-sm text-gray-500 gap-x-4">
+                                            <span>{doc.type.toUpperCase()}</span>
+                                            <span>•</span>
+                                            <span>{doc.size}</span>
+                                            <span>•</span>
+                                            <span>Обновлено: {doc.date}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="#" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="-ml-1 mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                    </svg>
+                                    Скачать
+                                </a>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            ))}
+        </div>
+    </main>
+</Layout>
+
 <style>
     .container {
         width: 100%; /* Теперь контейнер будет гибким */
