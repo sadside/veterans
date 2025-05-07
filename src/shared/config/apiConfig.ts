@@ -2,6 +2,7 @@ export const baseURL = 'http://81.31.247.179/api/'
 
 // Проверка и форматирование URL изображения
 export const getImageUrl = (imageUrl: string): string => {
+    return imageUrl
     if (!imageUrl) return ''
 
     // Если URL уже полный, возвращаем его как есть

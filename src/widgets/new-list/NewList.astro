@@ -23,6 +23,7 @@ const getNewsUrl = (newsId: number) => {
 };
 
 import { getImageUrl } from '@/shared/config/apiConfig';
+import { ImageWithFallback } from '@/shared/ui/ImageWithFallback/ui/ImageWithFallback';
 ---
 
 <div class="w-full mx-auto py-4">
@@ -38,18 +39,13 @@ import { getImageUrl } from '@/shared/config/apiConfig';
                     class="group flex flex-col sm:flex-row gap-4 p-4 border-b border-gray-200 rounded-lg bg-white shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer no-underline"
                 >
                     <div class="sm:w-36 sm:h-36 rounded-lg overflow-hidden flex-shrink-0">
-                        {item.image ? (
-                            <img
-                                src={getImageUrl(item.image)}
-                                alt={item.title}
-                                loading="lazy"
-                                class="w-full h-full object-cover"
-                            />
-                        ) : (
-                            <div class="w-full h-full bg-gray-300 flex items-center justify-center">
-                                <span class="text-gray-600 text-sm text-center">Изображение отсутствует</span>
-                            </div>
-                        )}
+                        <ImageWithFallback
+                            src={item.image ? getImageUrl(item.image) : ''}
+                            alt={item.title}
+                            className="w-full h-full object-cover"
+                            fallbackClassName="w-full h-full bg-gray-300 flex items-center justify-center"
+                            iconClassName="w-8 h-8 text-gray-600"
+                        />
                     </div>
                     <div class="flex-1">
                         <h3 class="text-lg font-medium text-gray-900 mb-2 group-hover:text-[#1570EF]">

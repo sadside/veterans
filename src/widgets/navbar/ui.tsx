@@ -47,7 +47,7 @@ export const Navbar = ({ navbarData }: NavbarProps) => {
                     variant={device === 'tablet' ? 'tablet' : 'desktop'}
                     navbarData={navbarData}
                 />
-                <Prosecution />
+                <div></div>
             </div>
         </div>
     )

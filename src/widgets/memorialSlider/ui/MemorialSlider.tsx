@@ -7,6 +7,7 @@ import {
     CarouselPrevious,
 } from '@/components/ui/carousel'
 import { getImageUrl } from '@/shared/config/apiConfig'
+import { ImageWithFallback } from '@/shared/ui/ImageWithFallback'
 
 interface Photo {
     id: number
@@ -51,8 +52,8 @@ export const MemorialSlider: React.FC<MemorialSliderProps> = ({
                         {photos.map((photo, index) => (
                             <CarouselItem key={photo.id || index}>
                                 <div className="rounded-lg overflow-hidden h-[350px] w-full">
-                                    <img
-                                        src={getImageUrl(photo.image)}
+                                    <ImageWithFallback
+                                        src={photo.image}
                                         alt={`${memorialName} - фото ${index + 1}`}
                                         className="w-full h-full object-cover"
                                         loading={index === 0 ? 'eager' : 'lazy'}

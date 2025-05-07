@@ -6,6 +6,7 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from '@/components/ui/carousel'
+import { ImageWithFallback } from '@/shared/ui/ImageWithFallback'
 
 interface Photo {
     id: number
@@ -37,7 +38,7 @@ export const MemorialCard: React.FC<MemorialCardProps> = ({ memorial }) => {
                                     key={photo.id || index}
                                     className="h-full"
                                 >
-                                    <img
+                                    <ImageWithFallback
                                         src={photo.image}
                                         alt={`${memorial.name} - фото ${index + 1}`}
                                         className="w-full h-full object-cover"
@@ -54,10 +55,13 @@ export const MemorialCard: React.FC<MemorialCardProps> = ({ memorial }) => {
                         )}
                     </Carousel>
                 ) : (
-                    <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                        <span className="text-gray-500">
-                            Изображение отсутствует
-                        </span>
+                    <div className="w-full h-full">
+                        <ImageWithFallback
+                            src=""
+                            alt="Изображение отсутствует"
+                            className="w-full h-full object-cover"
+                            fallbackClassName="w-full h-full rounded-none"
+                        />
                     </div>
                 )}
             </div>

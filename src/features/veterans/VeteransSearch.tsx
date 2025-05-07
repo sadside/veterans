@@ -106,7 +106,7 @@ export const VeteransSearch: React.FC<VeteransSearchProps> = ({
                                 className={`px-3 py-1.5 text-sm rounded-full transition-colors 
                                     ${currentFilter === false ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-100'}`}
                             >
-                                Ветераны прокуратуры
+                                Члены Совета Ветеранов Прокуратуры
                             </a>
                         )}
                     </div>

@@ -2,6 +2,8 @@ import { GradientBox } from '@/shared/ui/box/gradient-box'
 import memory from '@/assets/images/memory.png'
 import { Button } from '@/components/ui/button'
 import { useIsDevice } from '@/widgets/navbar/model/useIsDevice'
+import { ImageWithFallback } from '@/shared/ui/ImageWithFallback'
+import { ArrowRight } from 'lucide-react'
 
 export const Memory = () => {
     const device = useIsDevice()
@@ -27,7 +29,7 @@ export const Memory = () => {
                         </p>
 
                         <div className="w-full">
-                            <img
+                            <ImageWithFallback
                                 src={memory.src}
                                 alt="Memory Image"
                                 className="w-full h-auto rounded-xl"
@@ -44,8 +46,9 @@ export const Memory = () => {
                         </p>
 
                         <div className="flex justify-end">
-                            <Button className="text-white bg-[#146CE7] hover:bg-white hover:text-[#146CE7] border border-[#146CE7] rounded-full h-10 w-auto px-4 transition-colors">
+                            <Button className="text-white bg-[#146CE7] hover:bg-white hover:text-[#146CE7] border border-[#146CE7] rounded-md h-10 w-auto px-5 transition-all hover:shadow-md flex items-center gap-2 font-medium">
                                 Подробнее
+                                <ArrowRight className="w-4 h-4" />
                             </Button>
                         </div>
                     </div>
@@ -53,7 +56,7 @@ export const Memory = () => {
             ) : (
                 <>
                     <div className="order-1 lg:order-2 w-full lg:w-1/2">
-                        <img
+                        <ImageWithFallback
                             src={memory.src}
                             alt="Memory Image"
                             className="w-full h-auto rounded-xl"
@@ -81,17 +84,21 @@ export const Memory = () => {
                             работники прокуратуры, родственники Екатерины
                             Дмитриевны.
                         </p>
-                        {device === 'tablet' ? (
-                            <div className="flex justify-end">
-                                <Button className="text-white bg-[#146CE7] hover:bg-white hover:text-[#146CE7] border border-[#146CE7] rounded-full h-10 w-auto px-4 transition-colors">
+                        <a href="/veterans/ww2">
+                            {device === 'tablet' ? (
+                                <div className="flex justify-end">
+                                    <Button className="text-white bg-[#146CE7] hover:bg-white hover:text-[#146CE7] border border-[#146CE7] rounded-md h-10 w-auto px-5 transition-all hover:shadow-md flex items-center gap-2 font-medium">
+                                        Подробнее
+                                        <ArrowRight className="w-4 h-4" />
+                                    </Button>
+                                </div>
+                            ) : (
+                                <Button className="text-white bg-[#146CE7] hover:bg-white hover:text-[#146CE7] border border-[#146CE7] rounded-md h-10 w-auto px-5 transition-all hover:shadow-md flex items-center gap-2 font-medium">
                                     Подробнее
+                                    <ArrowRight className="w-4 h-4" />
                                 </Button>
-                            </div>
-                        ) : (
-                            <Button className="text-white bg-[#146CE7] hover:bg-white rounded-full h-10 w-auto px-4 flex items-center justify-center">
-                                Подробнее
-                            </Button>
-                        )}
+                            )}
+                        </a>
                     </div>
                 </>
             )}

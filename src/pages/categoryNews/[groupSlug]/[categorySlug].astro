@@ -8,6 +8,7 @@ import ServerBreadcrumbs from '@/shared/ui/breadcrumbs/ServerBreadcrumbs.astro'
 // import { Image } from 'astro:assets'
 import NewList from '@/widgets/new-list/NewList.astro'
 import { getImageUrl } from '@/shared/config/apiConfig'
+import { ImageWithFallback } from '@/shared/ui/ImageWithFallback/ui/ImageWithFallback'
 
 const url = new URL(Astro.request.url)
 const categoryId = url.searchParams.get('category_id')
@@ -47,7 +48,7 @@ const getNewsUrl = (newsId: number) => {
 ---
 
 <Layout>
-    <div class="container mx-auto px-4 pt-6 md:pt-24">
+    <div class="container mx-auto px-4">
         <div class="mb-6">
             <ServerBreadcrumbs pathname={Astro.url.pathname} activeColor="#1570EF" />
         </div>
@@ -65,8 +66,14 @@ const getNewsUrl = (newsId: number) => {
                             class="w-full h-[200px] sm:h-[250px] md:h-[350px] object-cover"
                         />
                     ) : (
-                        <div class="w-full h-[200px] sm:h-[250px] md:h-[350px] bg-gray-300 flex items-center justify-center">
-                            <span class="text-gray-600 text-lg font-medium">Изображение отсутствует</span>
+                        <div class="w-full h-[200px] sm:h-[250px] md:h-[350px]">
+                            <ImageWithFallback
+                                src=""
+                                alt={featuredNews.title}
+                                className="w-full h-full object-cover"
+                                fallbackClassName="w-full h-full bg-blue-50"
+                                iconClassName="h-16 w-16 text-blue-200"
+                            />
                         </div>
                     )}
                     <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#1570EF]/90 to-transparent p-4 md:p-6">

@@ -34,7 +34,7 @@ export const BirthdayDesktop = ({
                     src={image}
                     loading="lazy"
                     alt={`${name} ${surname}`}
-                    className={`${device === 'desktop' ? 'lg:min-w-[400px] lg:min-h-[500px]' : 'min-w-[250px] min-h-[350px]'}`}
+                    className={`${device === 'desktop' ? 'lg:min-w-[400px] lg:min-h-[500px] lg:max-h-[600px] rounded-md' : 'min-w-[250px] min-h-[350px]'}`}
                 />
             </div>
             {/* Лента прикреплена к левому краю */}

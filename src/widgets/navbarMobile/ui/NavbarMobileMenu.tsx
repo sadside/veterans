@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { parseHtmlToReact } from '@/shared/lib/parse-html'
 import type { GroupType } from '@/shared/types/groupTypes'
 import type { CategoryType } from '@/shared/types/categoryTypes'
+import { ImageWithFallback } from '@/shared/ui/ImageWithFallback'
 
 const menuVariants = {
     initial: { scaleY: 0, opacity: 0 },
@@ -94,7 +95,7 @@ export const MobileMobileMenu = ({
                             >
                                 {/* Контейнер для картинки с затемнением */}
                                 <div className="relative">
-                                    <img
+                                    <ImageWithFallback
                                         src={navbarData[selectedGroup].image}
                                         className={imgStyle}
                                         alt={navbarData[selectedGroup].name}

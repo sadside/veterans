@@ -22,7 +22,7 @@ export const Footer = () => {
                     >
                         Документы
                     </a>
-                    <a
+                    {/* <a
                         href="/institutions"
                         className="text-lg text-white border-b border-gray-400 pb-1 hover:no-underline"
                     >
@@ -36,20 +36,12 @@ export const Footer = () => {
                     </a>
                     <a className="text-lg text-white border-b border-gray-400 pb-1 hover:no-underline">
                         Реквизиты
-                    </a>
+                    </a> */}
                 </nav>
             </div>
 
             <div className="w-11/12 2xl:w-4/6 xl:w-5/6 mx-auto 2xl:pt-0 xl:pt-0 pt-10">
-                <div className="flex flex-col md:items-end text-center md:text-left">
-                    <p className="text-lg text-white mb-2">+7900000-00-00</p>
-                    <p className="text-lg text-white ">+7900000-00-00</p>
-                </div>
                 <div className="border-b border-gray-400 mt-5" />
-
-                <p className="text-sm text-center md:text-left text-gray-400 pt-2">
-                    Какой-то важный текст, если он понадобится
-                </p>
             </div>
         </footer>
     )

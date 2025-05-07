@@ -13,41 +13,29 @@ import {
     useEmblaController,
 } from '@/components/ui/carousel'
 import { Button } from '@/components/ui/button'
+import { ImageWithFallback } from '@/shared/ui/ImageWithFallback'
+import { ArrowRight } from 'lucide-react'
 
 const data = [
     {
-        title: 'ПРОТИВОДЕЙСТВИЕ КОРРУПЦИИ',
-        description:
-            'Противодействие коррупции всегда было и является приоритетной задачей для органов прокуратуры.',
-        image: first.src,
-    },
-    {
-        title: 'СВОДНЫЙ ПЛАН ПРОВЕРОК',
-        description: 'EPKHM/EPП Поиск KHM/Cводный план',
-        image: second.src,
-    },
-    {
         title: 'ЗАЩИТА ПРАВ ВЕТЕРАНОВ',
-        description:
-            'Совет ветеранов. Документы. Новости. Нюрнбергский процесс',
+        description: 'Совет ветеранов. Документы. Новости.',
         image: third.src,
+        link: '/categoryNews/novosti/zashita-prav-veteranov?category_id=5&group_id=2',
     },
     {
         title: 'ПРАВОВОЕ ПРОСВЕЩЕНИЕ',
         description:
             'Официальное распространение идей и правовых требований среди населения.',
         image: fourth.src,
+        link: '/categoryNews/novosti/pravovoe-prosveshenie?category_id=4&group_id=2',
     },
     {
         title: 'ЗАЩИТА ПРАВ ДЕТЕЙ',
         description:
             'Защита прав ребенка – одна из важнейших задач государства.',
         image: five.src,
-    },
-    {
-        title: 'СТАТИСТИЧЕСКИЕ ДАННЫЕ',
-        description: 'Результаты деятельности органов прокуратуры',
-        image: six.src,
+        link: '/categoryNews/novosti/zashita-prav-detej?category_id=6&group_id=2',
     },
 ]
 
@@ -59,7 +47,7 @@ export const Leisure = () => {
     return (
         <div className="rounded-3xl px-6 md:px-10 py-10 md:py-16 bg-leisure-block-bg">
             <h2 className="text-white text-2xl sm:text-3xl md:text-4xl font-medium uppercase mb-6 md:mb-10 text-center md:text-left">
-                Наш Досуг
+                Полезная Информация
             </h2>
             {device === 'mobile' ? (
                 <div className="rounded-3xl flex flex-col ">
@@ -75,6 +63,7 @@ export const Leisure = () => {
                                             title={item.title}
                                             image={item.image}
                                             description={item.description}
+                                            link={item.link}
                                         />
                                     </CarouselItem>
                                 ))}
@@ -87,10 +76,10 @@ export const Leisure = () => {
                         {data.map((_, index) => (
                             <button
                                 key={index}
-                                className={`w-3 h-3 rounded-full border-2 transition-colors duration-300 ${
+                                className={`w-3 h-3 rounded-full transition-colors duration-300 ${
                                     index === selectedIndex
-                                        ? 'bg-white '
-                                        : 'bg-blue-500 '
+                                        ? 'bg-white border-2 border-blue-500'
+                                        : 'bg-blue-500 border-2 border-blue-500'
                                 }`}
                                 onClick={() => scrollTo(index)}
                             />
@@ -111,6 +100,7 @@ export const Leisure = () => {
                                 title={item.title}
                                 image={item.image}
                                 description={item.description}
+                                link={item.link}
                             />
                         ))}
                     </div>
@@ -123,30 +113,34 @@ const Block = ({
     title,
     image,
     description,
+    link,
 }: {
     title: string
     image: string
     description: string
+    link: string
 }) => {
     return (
-        <div className="rounded-lg p-4 bg-white flex flex-col">
-            <h2 className="uppercase text-base sm:text-lg md:text-xl mb-3 font-medium min-h-[48px] text-center xl:text-left break-words">
+        <div className="rounded-lg p-5 bg-white flex flex-col shadow-md hover:shadow-lg transition-all duration-300">
+            <h2 className="uppercase text-base sm:text-lg md:text-xl mb-3 font-semibold min-h-[48px] text-center xl:text-left break-words text-[#146CE7]">
                 {title}
             </h2>
-            <img
-                src={image}
-                className="mb-4 w-full h-auto rounded-lg max-w-full"
-                alt={title}
-            />
-            <p className="text-sm sm:text-base md:text-lg text-[#858181] mb-3 flex-1 text-center xl:text-left">
+            <div className="overflow-hidden rounded-lg mb-4">
+                <ImageWithFallback
+                    src={image}
+                    alt={title}
+                    className="w-full h-auto rounded-lg max-w-full transition-transform duration-500 hover:scale-105"
+                />
+            </div>
+            <p className="text-sm sm:text-base md:text-lg text-[#858181] mb-5 flex-1 text-center xl:text-left">
                 {description}
             </p>
-            <Action
-                className="text-sm sm:text-base bg-white border border-gray-500 text-black hover:bg-gray-100 mx-auto xl:mx-0"
-                as="button"
-            >
-                Подробнее
-            </Action>
+            <a href={link ?? '#'}>
+                <Button className="text-[#146CE7] bg-white hover:bg-[#146CE7] hover:text-white border border-[#146CE7] rounded-md h-10 w-auto px-5 transition-all hover:shadow-md flex items-center gap-2 font-medium mx-auto xl:mx-0">
+                    Подробнее
+                    <ArrowRight className="w-4 h-4" />
+                </Button>
+            </a>
         </div>
     )
 }
@@ -154,25 +148,34 @@ const BlockMobile = ({
     title,
     image,
     description,
+    link,
 }: {
     title: string
     image: string
     description: string
+    link: string
 }) => {
     return (
-        <div className="relative w-full flex flex-col bg-white rounded-2xl shadow-lg overflow-hidden min-h-[350px]">
-            <div className="p-4 flex flex-col gap-2 flex-1 min-h-[400px]">
-                <p className="text-black text-lg font-semibold">{title}</p>
-                <img
+        <div className="relative w-full flex flex-col bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden min-h-[350px] p-5">
+            <h2 className="text-[#146CE7] text-lg font-semibold mb-3">
+                {title}
+            </h2>
+            <div className="rounded-lg overflow-hidden mb-4">
+                <ImageWithFallback
                     src={image}
                     alt={title}
-                    className="rounded-3xl w-full h-48 object-cover"
+                    className="w-full h-48 object-cover transition-transform duration-500 hover:scale-105"
                 />
-                <p className="text-sm text-gray-700 flex-1">{description}</p>
             </div>
-            <Button className="mt-auto ml-44 mb-7 text-sm  rounded-full bg-white border border-black text-black hover:bg-gray-100 transition w-max  ">
-                Подробнее
-            </Button>
+            <p className="text-sm text-gray-700 flex-1 mb-5">{description}</p>
+            <div className="flex justify-end mt-auto">
+                <a href={link ?? '#'}>
+                    <Button className="text-[#146CE7] bg-white hover:bg-[#146CE7] hover:text-white border border-[#146CE7] rounded-md h-10 w-auto px-5 transition-all hover:shadow-md flex items-center gap-2 font-medium">
+                        Подробнее
+                        <ArrowRight className="w-4 h-4" />
+                    </Button>
+                </a>
+            </div>
         </div>
     )
 }

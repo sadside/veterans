@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/carousel'
 import { useCallback, useEffect, useState } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
+import { ImageWithFallback } from '@/shared/ui/ImageWithFallback'
 
 const data = [
     {
@@ -82,7 +83,7 @@ export const Managment = () => {
 
     return (
         <div>
-            <h2 className="text-4xl font-semibold mb-14">Руководство</h2>
+            <h2 className="text-4xl font-semibold mb-14">Совет Ветеранов</h2>
             <div className="flex flex-col md:flex-row justify-between gap-8">
                 {device !== 'mobile' ? (
                     <>
@@ -202,7 +203,11 @@ const MainBlock = ({
 }) => {
     return (
         <div className="w-full md:w-1/4 mb-8 md:mb-0 text-center">
-            <img src={image} alt="" className="mb-5 w-full h-auto" />
+            <ImageWithFallback
+                src={image}
+                alt={name}
+                className="mb-5 w-full h-auto"
+            />
             <h2 className="mb-3 font-semibold text-[16px]">{name}</h2>
             <p className="text-[#858181] text-sm">{description}</p>
         </div>

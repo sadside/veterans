@@ -25,14 +25,14 @@ if (parsedNewsId) {
 ---
 
 <Layout>
-    <div class="container mx-auto px-4 pt-6 md:pt-24">
+    <div class="container mx-auto px-4">
         <ServerBreadcrumbs pathname={Astro.url.pathname} activeColor="#1570EF" />
     </div>
     
-    <main class="container mx-auto px-4 py-4">
+    <main class="container mx-auto px-4 py-4 h-full">
         
         {newsData && (
-            <article >
+            <article class="h-full flex flex-col gap-2">
                 <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
                     {newsData.title}
                 </h1>
@@ -49,9 +49,9 @@ if (parsedNewsId) {
                     </div>
                 )}
                 
-                <div class="prose prose-lg max-w-none text-gray-700" set:html={newsData.content}></div>
+                <div class="prose prose-lg max-w-none text-gray-700 flex-1" set:html={newsData.content}></div>
                 
-                <div class="mt-4 pt-4 border-t border-gray-200">
+                <div class="my-4 pt-4 border-t border-gray-200">
                     <a href="javascript:history.back()" class="inline-flex items-center text-[#1570EF] hover:underline">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd" />
@@ -70,9 +70,23 @@ if (parsedNewsId) {
     </main>
 </Layout>
 
-<style>
+<style is:global>
     .container {
         max-width: 1200px;
+    }
+    
+    /* Глобальные стили для изображений CKEditor */
+    figure.image img {
+        border-radius: 10px !important;
+        max-width: 500px !important;
+        height: auto !important;
+        margin: 1rem auto !important;
+    }
+    
+    figure.image {
+        margin: 2rem 0 !important;
+        text-align: center !important;
+        max-width: 100% !important;
     }
     
     .prose {
@@ -87,7 +101,7 @@ if (parsedNewsId) {
     }
     
     .prose p, .prose ul, .prose ol {
-        margin-bottom: 1.25em;
+        margin-bottom: 1em;
     }
     
     .prose a {

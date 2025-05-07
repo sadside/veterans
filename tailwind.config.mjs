@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const plugin = require('tailwindcss/plugin')
+
 export default {
     darkMode: ['class'],
     content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
@@ -81,6 +83,46 @@ export default {
         },
     },
     plugins: [
+        plugin(({ addBase, theme }) => {
+            addBase({
+                '.scroll-bar': { overflowY: 'auto' },
+                'scrollbar-hide::-webkit-scrollbar': {
+                    display: 'none',
+                },
+                '.scrollbar-hide': {
+                    '-ms-overflow-style': 'none',
+                    'scrollbar-width': 'none',
+                },
+                '.scroll-bar::-webkit-scrollbar-button': {
+                    display: 'none',
+                },
+                '.scroll-bar-table::-webkit-scrollbar': {
+                    width: '0px',
+                    borderRadius: '9999px',
+                },
+                '.scroll-bar-table::-webkit-scrollbar-thumb': {
+                    backgroundColor: theme('color.gray["300"]'),
+                    borderRadius: '9999px',
+                },
+                '.scroll-bar-table::-webkit-scrollbar-track': {
+                    backgroundColor: theme('color.gray["100"]'),
+                    borderRadius: '9999px',
+                },
+                '.scroll-bar-select::-webkit-scrollbar': {
+                    width: '14px',
+                    borderRadius: '10px',
+                },
+                '.scroll-bar-select::-webkit-scrollbar-thumb': {
+                    backgroundColor: theme('colors.gray.300'),
+                    borderRadius: '10px',
+                    border: '4px solid white',
+                },
+                '.scroll-bar-select::-webkit-scrollbar-track': {
+                    backgroundColor: 'white',
+                    borderRadius: '10px',
+                },
+            })
+        }),
         require('tailwindcss-animate'),
         require('@tailwindcss/line-clamp'),
     ],

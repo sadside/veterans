@@ -18,7 +18,7 @@ export const Introduction = ({ birthdayData }: Props) => {
             )}
 
             <GradientBox className="h-[2px] w-full mb-[80px] mt-10" />
-            <h1 className="text-center font-bold text-xl md:text-3xl lg:text-3xl pb-5">
+            {/* <h1 className="text-center font-bold text-xl md:text-3xl lg:text-3xl pb-5">
                 Название видео
             </h1>
             <div className="rounded-lg overflow-hidden mb-[80px] ">
@@ -33,7 +33,7 @@ export const Introduction = ({ birthdayData }: Props) => {
                     mozallowfullscreen
                     allowFullScreen
                 ></iframe>
-            </div>
+            </div> */}
             {/* <VeteranMemorial /> */}
         </>
     )
