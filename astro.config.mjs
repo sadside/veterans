@@ -5,17 +5,21 @@ import react from '@astrojs/react'
 import tailwind from '@astrojs/tailwind'
 import node from '@astrojs/node'
 
+// Получаем переменные окружения или используем значения по умолчанию
+const apiHost = process.env.API_HOST || '81.31.247.179'
+const apiBaseUrl = process.env.API_BASE_URL || `http://${apiHost}`
+
 // https://astro.build/config
 export default defineConfig({
     integrations: [react(), tailwind({ applyBaseStyles: false })],
     output: 'server',
     adapter: node({ mode: 'standalone' }),
     image: {
-        domains: ['81.31.247.179'],
+        domains: [apiHost],
         remotePatterns: [
             {
                 protocol: 'http',
-                hostname: '81.31.247.179',
+                hostname: apiHost,
                 port: '',
                 pathname: '/**',
             },
@@ -23,7 +27,7 @@ export default defineConfig({
         service: {
             entrypoint: 'astro/assets/services/sharp',
             config: {
-                allowCorsImageOriginList: ['http://81.31.247.179'],
+                allowCorsImageOriginList: [apiBaseUrl],
             },
         },
     },
