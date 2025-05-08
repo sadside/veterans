@@ -11,6 +11,7 @@ import { parseHtmlToReact } from '@/shared/lib/parse-html'
 import type { GroupType } from '@/shared/types/groupTypes'
 import type { CategoryType } from '@/shared/types/categoryTypes'
 import { ImageWithFallback } from '@/shared/ui/ImageWithFallback'
+import veteransImage from '@/assets/images/veteransLog.jpeg'
 
 type MenuLinksProps = {
     variant: 'tablet' | 'desktop'
@@ -59,8 +60,6 @@ export const MenuLinks = ({ variant, navbarData }: MenuLinksProps) => {
     const textSize = variant === 'tablet' ? 'text-[12px]' : 'text-[14px]'
 
     // Изображение-заглушка для пункта "Ветераны"
-    const veteransImage =
-        'https://xn--80aahcr2amfksldt3a4k.xn--p1ai/novosti/archive2023/veteran.jpg'
 
     return (
         <NavigationMenu>
@@ -96,7 +95,7 @@ export const MenuLinks = ({ variant, navbarData }: MenuLinksProps) => {
                         <div className="flex gap-4 relative">
                             <div className="relative shrink-0">
                                 <ImageWithBlur
-                                    src={veteransImage}
+                                    src={veteransImage.src}
                                     alt="Ветераны"
                                     className={imgStyle}
                                 />

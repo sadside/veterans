@@ -28,7 +28,7 @@ const newsData = await fetchNewsFeed()
             <News client:load newsData={newsData} />
         </div>
         <Marquee speed={200} />
-        <div class="bg-white mt-[100px] py-14">
+        <div class="bg-white mt-[100px] py-14" >
             <div class="page-container">
                 <Managment client:visible />
             </div>
@@ -36,16 +36,15 @@ const newsData = await fetchNewsFeed()
         <div class="page-container py-[100px]">
             <Memory client:visible />
         </div>
-        <div class="page-container py-[30px]">
+        <!-- <div class="page-container py-[30px]">
             <Leisure client:visible />
-        </div>
+        </div> -->
 
-        <div class="page-container">
-            <MemorialsOverview client:visible memorialsData={memorialsData} />
+        <div class="bg-white">
+            <div class="page-container py-[100px]">
+                <MemorialsOverview client:visible memorialsData={memorialsData} />
+            </div>
         </div>
     </div>
 </Layout>
 
-<style>
-    /* Удалены локальные стили контейнера, так как они теперь в global.css */
-</style>

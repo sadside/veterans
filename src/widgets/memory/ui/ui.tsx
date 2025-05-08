@@ -46,10 +46,12 @@ export const Memory = () => {
                         </p>
 
                         <div className="flex justify-end">
-                            <Button className="text-white bg-[#146CE7] hover:bg-white hover:text-[#146CE7] border border-[#146CE7] rounded-md h-10 w-auto px-5 transition-all hover:shadow-md flex items-center gap-2 font-medium">
-                                Подробнее
-                                <ArrowRight className="w-4 h-4" />
-                            </Button>
+                            <a href="memorials/2">
+                                <Button className="text-white bg-[#146CE7] hover:bg-white hover:text-[#146CE7] border border-[#146CE7] rounded-md h-10 w-auto px-5 transition-all hover:shadow-md flex items-center gap-2 font-medium">
+                                    Подробнее
+                                    <ArrowRight className="w-4 h-4" />
+                                </Button>
+                            </a>
                         </div>
                     </div>
                 </>
@@ -84,7 +86,7 @@ export const Memory = () => {
                             работники прокуратуры, родственники Екатерины
                             Дмитриевны.
                         </p>
-                        <a href="/veterans/ww2">
+                        <a href="memorials/2">
                             {device === 'tablet' ? (
                                 <div className="flex justify-end">
                                     <Button className="text-white bg-[#146CE7] hover:bg-white hover:text-[#146CE7] border border-[#146CE7] rounded-md h-10 w-auto px-5 transition-all hover:shadow-md flex items-center gap-2 font-medium">

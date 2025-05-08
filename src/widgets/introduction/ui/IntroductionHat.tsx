@@ -1,6 +1,6 @@
 import { Action } from '@/shared/ui/buttons/action'
 import memoryGridTwoHat from '../../../assets/images/memoryGridTwoHat.png'
-import bgGridThreeHat from '../../../assets/images/bgGridThreeHat.png'
+import bgGridThreeHat from '../../../assets/images/Veteran.jpg'
 import bgGridOneHat from '../../../assets/images/bgGridOneHat.png'
 import { useIsDevice } from '@/widgets/navbar/model/useIsDevice'
 import { GradientBox } from '@/shared/ui/box/gradient-box'
@@ -72,10 +72,37 @@ export const IntroductionHat = () => {
                     </h2>
                 </div>
 
-                <div className="absolute bottom-7">
-                    <Button className="bg-[#185CBC] rounded-full">
-                        Подробнее
-                    </Button>
+                <div className="absolute bottom-7 left-1/2 transform -translate-x-1/2 z-10">
+                    <a
+                        href="#managment"
+                        className="inline-flex cursor-pointer items-center justify-center px-6 py-3 bg-[#185CBC] text-white font-medium rounded-lg transition-all duration-300 hover:bg-white hover:text-[#185CBC] focus:outline-none"
+                        onClick={(e) => {
+                            e.preventDefault()
+                            const element = document.getElementById('managment')
+                            if (element) {
+                                element.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'start',
+                                })
+                            }
+                        }}
+                    >
+                        <span>Подробнее</span>
+                        <svg
+                            className="w-4 h-4 ml-2"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M12 5V19M12 19L5 12M12 19L19 12"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
+                        </svg>
+                    </a>
                 </div>
             </div>
         </div>

@@ -12,6 +12,10 @@ interface VeteranCardProps {
 export const VeteranCard: React.FC<VeteranCardProps> = ({ veteran }) => {
     // Форматирование даты рождения
     const formatBirthday = (dateString: string) => {
+        if (dateString === null) {
+            return 'Дата не указана'
+        }
+
         try {
             const date = new Date(dateString)
             return format(date, 'dd MMMM yyyy', { locale: ru })
@@ -48,7 +52,7 @@ export const VeteranCard: React.FC<VeteranCardProps> = ({ veteran }) => {
                     <span>{formatBirthday(veteran.birthday)}</span>
                 </div>
 
-                <div className="mt-auto pt-4">
+                {/* <div className="mt-auto pt-4">
                     <a
                         href={`/veterans/details/${veteran.id}`}
                         className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center"
@@ -69,7 +73,7 @@ export const VeteranCard: React.FC<VeteranCardProps> = ({ veteran }) => {
                             />
                         </svg>
                     </a>
-                </div>
+                </div> */}
             </div>
         </div>
     )

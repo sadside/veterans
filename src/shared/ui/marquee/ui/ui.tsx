@@ -21,6 +21,7 @@ const Marquee = ({
                 'overflow-hidden whitespace-nowrap bg-[#1570EF] text-white',
                 className
             )}
+            id="managment"
         >
             <div
                 className={cn(

@@ -7,13 +7,28 @@ const navbarData = await fetchGroupsWithCategories()
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="ru">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" type="image/x-icon" href="/proc.ico" />
         <meta name="generator" content={Astro.generator} />
-        <title>Astro Basics</title>
+        <title>Ветераны Новосибирской области</title>
+        <meta name="description" content="Новосибирское региональное отделение общероссийской общественной организации ветеранов и органов прокуратуры" />
+        
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={Astro.url} />
+        <meta property="og:title" content="Ветераны Новосибирской области" />
+        <meta property="og:description" content="Новосибирское региональное отделение общероссийской общественной организации ветеранов и органов прокуратуры" />
+        <meta property="og:image" content={new URL('/proc.ico', Astro.url)} />
+        
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={Astro.url} />
+        <meta property="twitter:title" content="Ветераны Новосибирской области" />
+        <meta property="twitter:description" content="Новосибирское региональное отделение общероссийской общественной организации ветеранов и органов прокуратуры" />
+        <meta property="twitter:image" content={new URL('/proc.ico', Astro.url)} />
     </head>
     <body>
         <div class="size-full flex flex-col min-h-screen">

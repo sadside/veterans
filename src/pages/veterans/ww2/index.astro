@@ -25,6 +25,8 @@ const veteransData = await fetchVeterans({
 // Расчёт общего количества страниц
 const totalPages = Math.ceil(veteransData.count / 12);
 
+console.log(veteransData)
+
 // Базовый URL для пагинации
 const baseUrl = url.pathname;
 ---

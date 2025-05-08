@@ -38,7 +38,7 @@ export const NavbarMobile = ({ toggleMobileMenu, isMobileMenuOpen }: Props) => (
             </button>
             <div className="flex items-center space-x-4">
                 <Logo />
-                <Prosecution />
+                {/* <Prosecution /> */}
             </div>
         </div>
     </div>
