@@ -5,6 +5,7 @@ import Logo from '@/components/ui/logo.tsx'
 import Prosecution from '@/components/ui/prosecution.tsx'
 import { useIsDevice } from './model/useIsDevice.ts'
 import { MobileMobileMenu, NavbarMobile } from '../navbarMobile/index.ts'
+import { cn } from '@/lib/utils.ts'
 type NavbarProps = {
     navbarData: GroupType[]
 }
@@ -40,7 +41,7 @@ export const Navbar = ({ navbarData }: NavbarProps) => {
             : 'w-[1200px] flex justify-between'
 
     return (
-        <div className={commonClasses}>
+        <div className={cn(commonClasses, 'hidden md:flex')}>
             <div className={innerContainerClass}>
                 <Logo />
                 <MenuLinks

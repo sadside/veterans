@@ -13,7 +13,7 @@ export const Footer = () => {
                                 НРО ООО ветеранов и пенсионеров
                             </p>
                             <p className="font-inter text-xl text-center md:text-left">
-                                органы прокуратуры
+                                органов прокуратуры
                             </p>
                         </div>
                     </div>
