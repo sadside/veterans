@@ -13,7 +13,7 @@ export const Introduction = ({ birthdayData }: Props) => {
     return (
         <>
             <IntroductionHat />
-            {birthdayData.length !== 0 && (
+            {birthdayData?.length !== 0 && (
                 <Birthday birthdayData={birthdayData} />
             )}
 

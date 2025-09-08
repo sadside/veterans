@@ -17,15 +17,17 @@ export const Birthday = ({ birthdayData }: Props) => {
     const device = useIsDevice()
     const Component = componentsMap[device] || BirthdayDesktop
 
-    const { name, surname, patronymic, image } = birthdayData[0]
+    const { name, surname, patronymic, image } = birthdayData?.[0] ?? {}
 
-    return (
-        <Component
-            name={name}
-            surname={surname}
-            patronymic={patronymic}
-            image={image}
-            device={device}
-        />
-    )
+    // return (
+    //     <Component
+    //         name={name}
+    //         surname={surname}
+    //         patronymic={patronymic}
+    //         image={image}
+    //         device={device}
+    //     />
+    // )
+
+    return <></>
 }

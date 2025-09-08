@@ -51,8 +51,8 @@ export const BirthdayDesktop = ({
                 <h3
                     className={` font-sign text-center ${device === 'tablet' ? 'text-3xl' : 'text-5xl'}`}
                 >
-                    Уважаемый(-ая) {surname} {name.toUpperCase()} <br />
-                    {patronymic.toUpperCase()}.
+                    Уважаемый(-ая) {surname} {name?.toUpperCase()} <br />
+                    {patronymic?.toUpperCase()}.
                 </h3>
                 <h2
                     className={` font-pacif text-center leading-tight ${device === 'tablet' ? 'text-4xl' : 'text-6xl'}`}

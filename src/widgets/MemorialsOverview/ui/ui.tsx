@@ -26,7 +26,7 @@ export const MemorialsOverview = ({ memorialsData }: Props) => {
             <div className="flex flex-col lg:flex-row gap-6">
                 <div className="w-full lg:w-1/3 max-h-[533px] overflow-y-auto scrollbar-hide rounded-xl bg-gradient-to-b from-[#1670ED] to-[#0C4089] py-6 shadow-lg">
                     <div className="flex flex-col">
-                        {memorialsData.map((memorial, index) => (
+                        {memorialsData?.map((memorial, index) => (
                             <div key={memorial.id} className="flex flex-col">
                                 <Block
                                     name={memorial.name}

@@ -10,7 +10,7 @@ export const fetchGroupsWithCategories = async (): Promise<
     try {
         // Запрашиваем группы
         const response = await axios.get(`${baseURL}news/groups/`)
-        const groups: GroupType[] = response.data.results
+        const groups: GroupType[] = response.data.results ?? []
 
         // Для каждой группы делаем запрос категорий
         const groupsWithCategories = await Promise.all(
