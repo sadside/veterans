@@ -7,7 +7,7 @@ export const fetchMemorials = async (): Promise<MemorialTypes[]> => {
         const response = await axios.get(`${baseURL}/memorials/memorials/`)
         return response.data.results
     } catch (error) {
-        console.error('Ошибка при выполнении запроса:', error)
-        throw error
+        console.error('Ошибка при выполнении запроса:', error.message)
+        // throw new Error(error.message)
     }
 }

@@ -13,14 +13,14 @@ import { fetchMemorials } from '@/shared/api/fetchMemorials'
 import { fetchNewsFeed } from '@/shared/api/fetchNewsFeed'
 import { MemorialsOverview } from '@/widgets/MemorialsOverview'
 
-const birthdayData = await fetchVeteransBirthday()
+// const birthdayData = await fetchVeteransBirthday()
 const memorialsData = await fetchMemorials()
 const newsData = await fetchNewsFeed()
 ---
 
 <Layout>
     <div class="page-container">
-        <Introduction client:load birthdayData={birthdayData} />
+        <Introduction client:load birthdayData={[]} />
     </div>
 
     <div class="bg-[#F0F2F9]">

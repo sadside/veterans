@@ -33,7 +33,7 @@ export const fetchGroupsWithCategories = async (): Promise<
 
         return groupsWithCategories
     } catch (error) {
-        console.error('Ошибка при получении групп с категориями:', error)
-        throw error
+        console.error('Ошибка при получении групп с категориями:', error instanceof Error ? error.message : error)
+        return []
     }
 }

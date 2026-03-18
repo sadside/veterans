@@ -28,30 +28,35 @@ const data = [
 
 const members = [
     {
-        name: 'Самочернов В.Ф.',
-        position: 'заместитель председателя Совета ветеранов',
-    },
-    {
         name: 'Ковтун В.А.',
         position: 'Член совета ветеранов',
     },
     {
-        name: 'Басов Л.Ю.',
+        name: 'Макаренко П.В.',
         position: 'Член совета ветеранов',
     },
     {
-        name: 'Громыко А.А.',
-        position: 'Председатель Совета ветеранов',
-    },
-    {
-        name: 'Васечко В.М.',
+        name: 'Отдельных А.М.',
         position: 'Член совета ветеранов',
     },
     {
-        name: 'Кузнецова Н.Б.',
+        name: 'Коваленко А.В.',
+        position: 'Член совета ветеранов',
+    },
+    {
+        name: 'Еремеева О.В.',
+        position: 'Член совета ветеранов',
+    },
+    {
+        name: 'Лобанова Ю.В.',
+        position: 'Член совета ветеранов',
+    },
+    {
+        name: 'Гановичев В.И.',
         position: 'Член совета ветеранов',
     },
 ]
+
 type SimpleMember = {
     name: string
     image: string
@@ -100,11 +105,11 @@ export const Managment = () => {
                             />
                         ))}
                         <div className="flex-1 w-full md:w-1/2">
-                            <img
-                                src={main.src}
-                                className="mb-5 w-full h-auto"
-                                alt=""
-                            />
+                            {/*<img*/}
+                            {/*    src={main.src}*/}
+                            {/*    className="mb-5 w-full h-auto"*/}
+                            {/*    alt=""*/}
+                            {/*/>*/}
                             <div className="grid grid-cols-2 md:grid-cols-3 grid-rows-2 gap-x-6 gap-y-1">
                                 {members.map((member, index) => (
                                     <div key={index} className="text-center">
