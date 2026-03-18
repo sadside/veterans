@@ -83,7 +83,7 @@ export const Managment = () => {
     const combinedData: CombinedMember[] = [
         ...data,
         {
-            name: 'Члены совета ветеранов',
+            name: '',
             image: main.src,
             description: '',
             membersList: members,
@@ -104,19 +104,22 @@ export const Managment = () => {
                                 description={item.description}
                             />
                         ))}
-                        <div className="flex-1 w-full md:w-1/2">
-                            {/*<img*/}
-                            {/*    src={main.src}*/}
-                            {/*    className="mb-5 w-full h-auto"*/}
-                            {/*    alt=""*/}
-                            {/*/>*/}
-                            <div className="grid grid-cols-2 md:grid-cols-3 grid-rows-2 gap-x-6 gap-y-1">
+                        <div className="flex-1 w-full md:w-1/2 flex flex-col justify-center">
+                            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
                                 {members.map((member, index) => (
-                                    <div key={index} className="text-center">
-                                        <h3 className="font-semibold mb-1 text-sm md:text-base">
+                                    <div
+                                        key={index}
+                                        className="flex flex-col items-center justify-center text-center bg-gray-50 border border-gray-100 rounded-2xl px-3 py-4 hover:shadow-md hover:border-blue-100 transition-all duration-200"
+                                    >
+                                        <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mb-2">
+                                            <span className="text-blue-600 font-bold text-xs">
+                                                {member.name.charAt(0)}
+                                            </span>
+                                        </div>
+                                        <h3 className="font-semibold text-sm leading-tight">
                                             {member.name}
                                         </h3>
-                                        <p className="text-[14px] text-[#858181]">
+                                        <p className="text-[12px] text-[#858181] mt-1 leading-tight">
                                             {member.position}
                                         </p>
                                     </div>
@@ -138,25 +141,30 @@ export const Managment = () => {
                                             className="min-w-full flex-shrink-0 pr-4"
                                         >
                                             {'membersList' in item ? (
-                                                <div className="text-center">
-                                                    <img
-                                                        src={item.image}
-                                                        alt=""
-                                                        className="mb-5 w-full h-auto"
-                                                    />
-                                                    <h2 className="mb-5 font-semibold text-[16px]">
+                                                <div className="px-2 pb-4">
+                                                    <h2 className="mb-4 font-semibold text-[16px] text-center text-gray-700">
                                                         {item.name}
                                                     </h2>
-                                                    <div className="grid grid-cols-2 gap-x-4 gap-y-2 px-4">
+                                                    <div className="grid grid-cols-2 gap-2">
                                                         {item.membersList.map(
                                                             (member, i) => (
-                                                                <div key={i}>
-                                                                    <h3 className="font-semibold text-sm">
+                                                                <div
+                                                                    key={i}
+                                                                    className="flex flex-col items-center text-center bg-gray-50 border border-gray-100 rounded-xl px-2 py-3"
+                                                                >
+                                                                    <div className="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center mb-1">
+                                                                        <span className="text-blue-600 font-bold text-xs">
+                                                                            {member.name.charAt(
+                                                                                0
+                                                                            )}
+                                                                        </span>
+                                                                    </div>
+                                                                    <h3 className="font-semibold text-xs leading-tight">
                                                                         {
                                                                             member.name
                                                                         }
                                                                     </h3>
-                                                                    <p className="text-[14px] text-[#858181]">
+                                                                    <p className="text-[11px] text-[#858181] mt-0.5 leading-tight">
                                                                         {
                                                                             member.position
                                                                         }
