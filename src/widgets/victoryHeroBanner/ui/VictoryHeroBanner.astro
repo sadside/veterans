@@ -1,0 +1,201 @@
+---
+import medalRibbon from '../assets/medal-ribbon.png'
+// Праздничный баннер ко Дню Победы — классический плакатный стиль
+// Декоративный, без CTA. Управляется через PUBLIC_VICTORY_THEME.
+---
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+    href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@1,700&display=swap"
+    rel="stylesheet"
+/>
+
+<section class="victory-hero">
+    <div class="victory-hero__bg" aria-hidden="true"></div>
+
+    <div class="victory-hero__inner">
+        <div class="victory-hero__nine">
+            <span>9 МАЯ</span>
+        </div>
+
+        <div class="victory-hero__center">
+            <p class="victory-hero__line">С ДНЁМ</p>
+            <p class="victory-hero__line">ВЕЛИКОЙ</p>
+            <p class="victory-hero__line">ПОБЕДЫ!</p>
+            <p class="victory-hero__years">1941&nbsp;&mdash;&nbsp;1945</p>
+        </div>
+
+        <div class="victory-hero__medal">
+            <img src={medalRibbon.src} alt="" loading="eager" />
+        </div>
+    </div>
+</section>
+
+<style>
+    .victory-hero {
+        position: relative;
+        overflow: hidden;
+        border-radius: 1rem;
+        background-color: #b22228;
+    }
+
+    .victory-hero__bg {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, #b22228 0%, #8e1820 100%);
+    }
+
+    .victory-hero__inner {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: clamp(0.75rem, 2vw, 2rem);
+        padding: clamp(1.25rem, 2.5vw, 2rem) clamp(1.25rem, 3vw, 3rem);
+        min-height: 220px;
+    }
+
+    .victory-hero__nine {
+        flex-shrink: 0;
+    }
+
+    .victory-hero__nine span {
+        display: block;
+        font-family: 'PT Serif', Georgia, 'Times New Roman', serif;
+        font-style: italic;
+        font-weight: 700;
+        font-size: clamp(3rem, 8vw, 6.75rem);
+        line-height: 0.9;
+        letter-spacing: 0.01em;
+        color: #ebd5a1;
+        text-shadow:
+            0 2px 8px rgba(0, 0, 0, 0.4),
+            0 0 1px rgba(235, 213, 161, 0.5);
+        white-space: nowrap;
+    }
+
+    .victory-hero__center {
+        flex: 1 1 auto;
+        text-align: center;
+        max-width: 380px;
+    }
+
+    .victory-hero__line {
+        margin: 0;
+        font-family: 'PT Serif', Georgia, 'Times New Roman', serif;
+        font-style: italic;
+        font-weight: 700;
+        font-size: clamp(1.25rem, 2.6vw, 2.1rem);
+        line-height: 1.05;
+        color: #ebd5a1;
+        letter-spacing: 0.02em;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+    }
+
+    .victory-hero__line:first-child {
+        font-size: clamp(1.1rem, 2.2vw, 1.7rem);
+    }
+
+    .victory-hero__years {
+        margin: 0.5rem 0 0;
+        font-family: 'PT Serif', Georgia, 'Times New Roman', serif;
+        font-style: italic;
+        font-weight: 700;
+        font-size: clamp(0.95rem, 1.6vw, 1.25rem);
+        color: #ebd5a1;
+        letter-spacing: 0.08em;
+        opacity: 0.92;
+    }
+
+    .victory-hero__medal {
+        flex-shrink: 0;
+        width: clamp(180px, 28vw, 380px);
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+    .victory-hero__medal img {
+        width: 100%;
+        height: auto;
+        display: block;
+        filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.35));
+    }
+
+    @media (max-width: 1024px) {
+        .victory-hero__inner {
+            min-height: 180px;
+        }
+        .victory-hero__center {
+            max-width: 280px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .victory-hero {
+            border-radius: 0.75rem;
+        }
+        .victory-hero__inner {
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 0.5rem;
+            padding: 1rem 1rem 1.25rem;
+            min-height: unset;
+        }
+        .victory-hero__nine {
+            order: 1;
+        }
+        .victory-hero__nine span {
+            font-size: 3rem;
+            line-height: 1;
+        }
+        .victory-hero__center {
+            order: 2;
+            max-width: 100%;
+        }
+        .victory-hero__line {
+            display: inline;
+            font-size: 1.1rem;
+            line-height: 1.25;
+        }
+        .victory-hero__line + .victory-hero__line::before {
+            content: ' ';
+        }
+        .victory-hero__line:first-child {
+            font-size: 1.1rem;
+        }
+        .victory-hero__years {
+            display: block;
+            margin-top: 0.15rem;
+            font-size: 0.9rem;
+        }
+        .victory-hero__medal {
+            order: 3;
+            width: 230px;
+            justify-content: center;
+            margin-top: 0.4rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .victory-hero__nine span {
+            font-size: 2.5rem;
+        }
+        .victory-hero__line {
+            font-size: 1rem;
+        }
+        .victory-hero__line:first-child {
+            font-size: 1rem;
+        }
+        .victory-hero__years {
+            font-size: 0.85rem;
+        }
+        .victory-hero__medal {
+            width: 200px;
+        }
+    }
+</style>
