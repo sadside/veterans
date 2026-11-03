@@ -1,0 +1,140 @@
+<section class="unity-banner" aria-labelledby="unity-day-title">
+    <div class="unity-banner__copy">
+        <p class="unity-banner__date"><time datetime="11-04">4 ноября</time></p>
+        <h2 id="unity-day-title">С Днём народного<br /> единства!</h2>
+        <p class="unity-banner__wish">
+            Дорогие ветераны, коллеги и друзья! Желаем вам и вашим близким
+            крепкого здоровья, мира и благополучия!
+        </p>
+    </div>
+
+    <svg
+        class="unity-banner__ribbon"
+        viewBox="0 0 380 252"
+        preserveAspectRatio="xMidYMid slice"
+        aria-hidden="true"
+    >
+        <path
+            fill="#f5f8ff"
+            d="M-16 192C64 188 104 137 163 74 219 13 290-2 401 4v38C298 38 248 54 189 113 130 174 82 220-16 230Z"
+        />
+        <path
+            fill="#4180de"
+            d="M-16 230c98-10 146-56 205-117 59-59 109-75 212-71v38c-96-4-133 15-187 73-57 60-117 103-230 115Z"
+        />
+        <path
+            fill="#e54b58"
+            d="M-16 268c113-12 173-55 230-115 54-58 91-77 187-73v38c-85-5-112 17-160 74-60 69-143 107-257 114Z"
+        />
+        <path
+            fill="#102d55"
+            opacity=".15"
+            d="M167 69c61-52 144-62 234-56v81c-100-8-153 27-197 74-60 62-111 96-220 109v-22c81-12 129-50 168-91 25-27 41-56 15-95Z"
+        />
+    </svg>
+
+    <svg
+        class="unity-banner__mobile-ribbon"
+        viewBox="0 0 280 64"
+        aria-hidden="true"
+    >
+        <path
+            fill="#f5f8ff"
+            d="M0 64C64 64 100 46 139 31S228 9 282 13V25C228 21 178 28 139 43S64 76 0 76Z"
+        />
+        <path
+            fill="#4180de"
+            d="M0 76C64 76 100 58 139 43S228 21 282 25V37C228 33 178 40 139 55S64 88 0 88Z"
+        />
+        <path
+            fill="#e54b58"
+            d="M0 88C64 88 100 70 139 55S228 33 282 37V49C228 45 178 52 139 67S64 100 0 100Z"
+        />
+    </svg>
+</section>
+
+<style>
+    .unity-banner {
+        position: relative;
+        isolation: isolate;
+        display: grid;
+        align-content: center;
+        min-height: 244px;
+        overflow: hidden;
+        border-radius: 1rem;
+        background: linear-gradient(115deg, #11274b, #164481);
+        color: #fff;
+    }
+
+    .unity-banner__copy {
+        position: relative;
+        z-index: 1;
+        width: 65%;
+        padding: 1.5rem clamp(1.125rem, 4vw, 3rem);
+    }
+
+    .unity-banner__date {
+        margin-bottom: 0.75rem;
+        color: #c7ddff;
+        font-size: 0.875rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+    }
+
+    .unity-banner h2 {
+        font-size: clamp(1.75rem, 4.6vw, 3rem);
+        font-weight: 700;
+        line-height: 1.08;
+        letter-spacing: -0.035em;
+    }
+
+    .unity-banner__wish {
+        max-width: 48ch;
+        margin-top: 0.75rem;
+        color: #e0ebff;
+        font-size: 1rem;
+        line-height: 1.45;
+        text-wrap: pretty;
+    }
+
+    .unity-banner__ribbon {
+        position: absolute;
+        inset: 0 0 0 auto;
+        width: 44%;
+        height: 100%;
+        mask-image: linear-gradient(to right, transparent, #000 34%);
+    }
+
+    .unity-banner__mobile-ribbon {
+        display: none;
+    }
+
+    @media (max-width: 540px) {
+        .unity-banner {
+            align-content: start;
+            border-radius: 0.75rem;
+        }
+
+        .unity-banner__copy {
+            width: 100%;
+            padding-bottom: 4.5rem;
+        }
+
+        .unity-banner h2 br {
+            display: none;
+        }
+
+        .unity-banner__ribbon {
+            display: none;
+        }
+
+        .unity-banner__mobile-ribbon {
+            position: absolute;
+            inset: auto 0 0 auto;
+            display: block;
+            width: min(70%, 18rem);
+            height: auto;
+        }
+    }
+</style>
