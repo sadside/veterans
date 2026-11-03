@@ -1,0 +1,4 @@
+allowBuilds:
+    esbuild@0.21.5 || 0.24.2 || 0.25.2: true
+    sharp@0.33.5: true
+    jss@9.8.7: false
